@@ -3,16 +3,17 @@ from typing import List
 
 class Solution:
     def allPathsSourceTarget(self, graph: List[List[int]]) -> List[List[int]]:
+        """Finds all paths from node 0 to the last node in a DAG."""
         result = []
-        self.allPaths([0], graph, result)
+        self._dfs(0, [0], graph, result)
         return result
 
-    def allPaths(self, path, graph, result):
-        children = graph[path[-1]]
-        if not children:
+    def _dfs(self, node: int, path: List[int], graph: List[List[int]], result: List[List[int]]) -> None:
+        if node == len(graph) - 1:
             result.append(path.copy())
+            return
 
-        for child in children:
-            path.append(child)
-            self.allPaths(path, graph, result)
+        for neighbor in graph[node]:
+            path.append(neighbor)
+            self._dfs(neighbor, path, graph, result)
             path.pop()
