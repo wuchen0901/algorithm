@@ -1,23 +1,34 @@
 from typing import List
 
-
 class Solution:
     def threeSum(self, nums: List[int]) -> List[List[int]]:
-        # Input: nums = [-1,0,1,2,-1,-4]
-        # Output: [[-1,-1,2],[-1,0,1]]
         nums.sort()
-        # Input: nums = [-4,-1,-1,0,1,2]
-        unique_set = set()
-        for i in range(len(nums) - 2):
+        result = []
+        i = 0
+        while i < len(nums) - 2:
+            if i > 0 and nums[i] == nums[i - 1]:
+                i += 1
+                continue
+
             left = i + 1
             right = len(nums) - 1
-            while left != right:
-                total = nums[left] + nums[right]
-                if total < -nums[i]:
+
+            while left < right:
+                total = nums[i] + nums[left] + nums[right]
+                if total < 0:
                     left += 1
-                elif -nums[i] < total:
+                elif total > 0:
                     right -= 1
                 else:
-                    unique_set.add(tuple([nums[i], nums[left], nums[right]]))
+                    result.append([nums[i], nums[left], nums[right]])
+                    # 去重：跳过相同元素
+                    while left < right and nums[left] == nums[left + 1]:
+                        left += 1
+                    while left < right and nums[right] == nums[right - 1]:
+                        right -= 1
                     left += 1
-        return [list(r) for r in unique_set]
+                    right -= 1
+
+            i += 1
+
+        return result
