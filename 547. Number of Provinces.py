@@ -1,40 +1,28 @@
 from typing import List
 
-
 class Solution:
     def findCircleNum(self, isConnected: List[List[int]]) -> int:
-        parents = [i for i in range(len(isConnected))]
+        n = len(isConnected)
+        parents = list(range(n))
 
-        # 🔁 1. Recursive Traversal (Side-Effect Recursion)
-        # 🔄 2. Recursive Return (Return-Value-Based Recursion)
-        # x: 0 -> 4
-        # x: 1 -> 5
-        # Process:
-        # x: 0
-        # while parents[x] != x:
-        # parents[x]: 2
-        # x: 2
-        # parents[2]: 4
-        # x: 4
-        # parents[4]: 4
+        # 🧠 Path Compression
         def find(x):
-            # x: 2
-            while parents[x] != x:
-                x = parents[x]
-            return x
+            if parents[x] != x:
+                parents[x] = find(parents[x])
+            return parents[x]
 
+        # 🔄 Union
         def union(x, y):
-            x_root = find(x)
-            y_root = find(y)
-            parents[x_root] = y_root
+            root_x = find(x)
+            root_y = find(y)
+            if root_x != root_y: # Is it necessary?
+                parents[root_x] = root_y
 
-        for row in range(len(isConnected)):
-            for i in range(len(isConnected[row])):
-                if i < row and isConnected[row][i] == 1:
-                    union(row, i)
+        # ⚙️ Traverse only the upper triangle of the matrix
+        for i in range(n):
+            for j in range(i):
+                if i < j and isConnected[i][j]:
+                    union(i, j)
 
-        count = 0
-        for i, parent in enumerate(parents):
-            if i == parent:
-                count += 1
-        return count
+        # ✅ Count the number of unique roots (provinces)
+        return sum(1 for i in range(n) if parents[i] == i)
