@@ -1,36 +1,29 @@
 from typing import List
 
-
 class Solution:
     def numIslands(self, grid: List[List[str]]) -> int:
-        # grid = [
-        #   ["1","1","1","1","0"],
-        #   ["1","1","0","1","0"],
-        #   ["1","1","0","0","0"],
-        #   ["0","0","0","0","0"]
-        # ]
+        if not grid:
+            return 0
 
-        def dfs(row: int, i: int):
-            if not (0 <= row < len(grid) and 0 <= i < len(grid[row])):
+        rows, cols = len(grid), len(grid[0])
+
+        def dfs(i: int, j: int):
+            # 🚫 越界或遇到水，停止递归
+            if i < 0 or i >= rows or j < 0 or j >= cols or grid[i][j] != '1':
                 return
+            # ✅ 标记为访问过（淹没这块陆地）
+            grid[i][j] = '0'
+            # 🔁 递归访问四个方向
+            dfs(i + 1, j)
+            dfs(i - 1, j)
+            dfs(i, j + 1)
+            dfs(i, j - 1)
 
-            if grid[row][i] == "0":
-                return
+        island_count = 0
+        for i in range(rows):
+            for j in range(cols):
+                if grid[i][j] == '1':
+                    island_count += 1
+                    dfs(i, j)
 
-            grid[row][i] = "0"
-
-            dfs(row - 1, i)
-            dfs(row + 1, i)
-            dfs(row, i - 1)
-            dfs(row, i + 1)
-
-        number = 0
-        # Iterate over the grid
-        for row in range(len(grid)):  # 0 1 2 3
-            for i in range(len(grid[row])):  # 0 1 2 3 4
-                if grid[row][i] == "1":
-                    number += 1
-                    # DFS from here to mark every "1" to "0"
-                    dfs(row, i)
-
-        return number
+        return island_count
