@@ -1,20 +1,18 @@
 from typing import List
 
-
 class Solution:
     def combine(self, n: int, k: int) -> List[List[int]]:
-        collections = [i + 1 for i in range(n)]
+        result = []
 
-        def backtrack(path, start):
+        def backtrack(start: int, path: List[int]) -> None:
             if len(path) == k:
-                combinations.append(path.copy())
+                result.append(path[:])
                 return
-
-            for i in range(start, len(collections)):
-                path.append(collections[i])
-                backtrack(path, i + 1)
+            # 剪枝：i 最大只能到 n - (k - len(path)) + 1
+            for i in range(start, n - (k - len(path)) + 2):
+                path.append(i)
+                backtrack(i + 1, path)
                 path.pop()
 
-        combinations = []
-        backtrack([], 0)
-        return combinations
+        backtrack(1, [])
+        return result
