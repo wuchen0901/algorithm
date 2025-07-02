@@ -45,3 +45,10 @@ class SolutionChooseSkip:
 
         backtrack([], 0)
         return result
+
+# 测试代码
+if __name__ == "__main__":
+    sol = SolutionChooseSkip()
+    output = sol.subsets([1, 2, 3])
+    for subset in output:
+        print(subset)
