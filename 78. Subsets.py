@@ -1,7 +1,10 @@
 from typing import List
 
 
-class Solution:
+class SolutionWithLoop:
+    """
+    Generate all subsets of a list using for-loop backtracking.
+    """
     def subsets(self, nums: List[int]) -> List[List[int]]:
         result = []
 
@@ -15,25 +18,30 @@ class Solution:
                 backtrack_with_loop(path, i + 1)  # Recurse with next index
                 path.pop()                      # Undo the choice (backtrack)
 
-        # Uncomment the next line to use method 1
-        # backtrack_with_loop([], 0)
+        backtrack_with_loop([], 0)
 
-        # === Method 2: Choose / Don't Choose style (Decision Tree style) ===
-        # At every index, we make two decisions: include nums[index] or not.
-        def backtrack_choose_or_not(path, index):
+        return result
+
+
+class SolutionChooseSkip:
+    """
+    Generate all subsets of a list using choose / don't choose backtracking.
+    """
+    def subsets(self, nums: List[int]) -> List[List[int]]:
+        result: List[List[int]] = []
+
+        def backtrack(path: List[int], index: int) -> None:
             if index == len(nums):
                 result.append(path.copy())
                 return
 
             # Don't choose nums[index]
-            backtrack_choose_or_not(path, index + 1)
+            backtrack(path, index + 1)
 
             # Choose nums[index]
             path.append(nums[index])
-            backtrack_choose_or_not(path, index + 1)
+            backtrack(path, index + 1)
             path.pop()
 
-        # Uncomment the next line to use method 2
-        backtrack_choose_or_not([], 0)
-
+        backtrack([], 0)
         return result
