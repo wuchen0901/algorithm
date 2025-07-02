@@ -1,9 +1,11 @@
 from typing import List
 
+
 class SolutionForLoopPrune:
     """
     Generate all combinations of k numbers from 1 to n using for-loop backtracking with pruning.
     """
+
     def combine(self, n: int, k: int) -> List[List[int]]:
         result: List[List[int]] = []
 
@@ -26,26 +28,31 @@ class SolutionChooseSkip:
     """
     Generate all combinations of k numbers from 1 to n using choose/skip backtracking with pruning.
     """
-    def combine(self, n: int, k: int) -> List[List[int]]:
-        result: List[List[int]] = []
-        path: List[int] = []
+    def combine(self, candidates: List[int], k: int) -> List[List[int]]:
+        result = []
 
-        def dfs(idx: int) -> None:
-            # Record combination when path length reaches k
+        def backtrack(path: List[int], i):
+            # Prune
             if len(path) == k:
                 result.append(path.copy())
                 return
-            # Prune when remaining elements are insufficient
-            if len(path) + (n - idx + 1) < k:
+
+            if i == len(candidates):
                 return
 
-            # Record idx and recurse (choose)
-            path.append(idx)
-            dfs(idx + 1)
+            backtrack(path, i + 1)
+
+            path.append(candidates[i])
+            backtrack(path, i + 1)
             path.pop()
 
-            # Skip idx and recurse
-            dfs(idx + 1)
+        backtrack([], 0)
 
-        dfs(1)
         return result
+
+
+if __name__ == "__main__":
+    sol = SolutionChooseSkip()
+    output = sol.combine([1, 2, 3], 2)
+    for combination in output:
+        print(combination)
