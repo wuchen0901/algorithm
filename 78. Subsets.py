@@ -3,7 +3,7 @@ from typing import List
 
 class SolutionWithLoop:
     """
-    Generate all subsets of a list using for-loop backtracking.
+    For-loop based backtracking
     """
     def subsets(self, nums: List[int]) -> List[List[int]]:
         result = []
@@ -25,7 +25,8 @@ class SolutionWithLoop:
 
 class SolutionChooseSkip:
     """
-    Generate all subsets of a list using choose / don't choose backtracking.
+    Binary decision tree
+    Choose / Don't Choose recursion
     """
     def subsets(self, nums: List[int]) -> List[List[int]]:
         result: List[List[int]] = []
