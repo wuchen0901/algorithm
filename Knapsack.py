@@ -1,3 +1,4 @@
+from functools import lru_cache
 from typing import List
 
 
@@ -94,7 +95,21 @@ def knapsack_memo_manual(weights: List[int], values: List[int], capacity: int) -
     return dp(0, capacity)
 
 
-# Version 5: Bottom-up DP (1D space optimized)
+# Version 5: Bottom-up DP (2D DP Table)
+def knapsack_dp_2d(weights: List[int], values: List[int], capacity: int) -> int:
+    n = len(weights)
+    dp = [[0] * (capacity + 1) for _ in range(n + 1)]
+
+    for i in range(1, n + 1):
+        for c in range(capacity + 1):
+            if weights[i - 1] <= c:
+                dp[i][c] = max(dp[i - 1][c], dp[i - 1][c - weights[i - 1]] + values[i - 1])
+            else:
+                dp[i][c] = dp[i - 1][c]
+    return dp[n][capacity]
+
+
+# Version 6: Bottom-up DP (1D space optimized)
 def knapsack_dp_optimized(weights: List[int], values: List[int], capacity: int) -> int:
     n = len(weights)
     dp = [0] * (capacity + 1)
