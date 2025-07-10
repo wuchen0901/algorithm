@@ -37,17 +37,20 @@ def knapsack_combination(weights: List[int], values: List[int], capacity: int) -
 
 # Version 2: choose/skip-style backtracking
 def knapsack_backtrack_optimized(weights: List[int], values: List[int], capacity: int) -> int:
+    n = len(weights)
     max_value = 0
 
-    def backtrack(index: int, total_weight: int, total_value: int):
+    def backtrack(current_weight, current_value, i):
         nonlocal max_value
-        if total_weight > capacity:
+        if capacity < current_weight:
             return
-        if index == len(weights):
-            max_value = max(max_value, total_value)
+
+        if i == n:
+            max_value = max(max_value, current_value)
             return
-        backtrack(index + 1, total_weight, total_value)
-        backtrack(index + 1, total_weight + weights[index], total_value + values[index])
+
+        backtrack(current_weight + weights[i], current_value + values[i], i + 1)
+        backtrack(current_weight, current_value, i + 1)
 
     backtrack(0, 0, 0)
     return max_value
