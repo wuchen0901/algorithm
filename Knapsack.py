@@ -1,6 +1,20 @@
 from typing import List
 
 
+# === Problem Type 1: Can we exactly fill the knapsack? ===
+
+# Version 1: Can we exactly fill the knapsack? (Boolean)
+def knapsack_can_fill(weights: List[int], capacity: int) -> bool:
+    dp = [False] * (capacity + 1)
+    dp[0] = True
+    for w in weights:
+        for j in range(capacity, w - 1, -1):
+            dp[j] = dp[j] or dp[j - w]
+    return dp[capacity]
+
+
+# === Problem Type 2: Maximize value (0/1 Knapsack standard) ===
+
 # combination-style backtracking
 def knapsack(weights: List[int], values: List[int], capacity: int) -> int:
     num_items = len(weights)
@@ -17,35 +31,6 @@ def knapsack(weights: List[int], values: List[int], capacity: int) -> int:
             backtrack(i + 1, total_weight + weights[i], total_value + values[i])
 
     backtrack(0, 0, 0)
-    return max_value
-
-
-# choose/skip-style backtracking
-def knapsack_backtrack(weights: List[int], values: List[int], capacity: int) -> int:
-    max_value = 0
-
-    def backtrack(path: List[int], index: int):
-        nonlocal max_value
-        # Prune
-        if capacity < sum(weights[i] for i in path):
-            return
-
-        # Should I put it here? No — because path is still incomplete (not all choices made).
-        # max_value = max(max_value, sum(values[i] for i in path))
-
-        # Choose/skip backtracking ends here.
-        if index == len(weights):
-            # This is the correct place to evaluate max_value — path is complete.
-            max_value = max(max_value, sum(values[i] for i in path))
-            return
-
-        backtrack(path, index + 1)
-
-        path.append(index)
-        backtrack(path, index + 1)
-        path.pop()
-
-    backtrack([], 0)
     return max_value
 
 
@@ -148,6 +133,7 @@ def knapsack_dp_table(weights: List[int], values: List[int], capacity: int) -> i
 
 
 # bottom-up DP with 1D array (space optimized)
+
 def knapsack_dp_optimized(weights: List[int], values: List[int], capacity: int) -> int:
     n = len(weights)
     dp = [0] * (capacity + 1)
@@ -157,3 +143,51 @@ def knapsack_dp_optimized(weights: List[int], values: List[int], capacity: int) 
             dp[j] = max(dp[j], dp[j - weights[i]] + values[i])
 
     return dp[capacity]
+
+
+# === Problem Type 3: Count the number of ways to fill the knapsack ===
+
+# Version 3: Number of ways to fill the knapsack exactly (Count solutions)
+def knapsack_count_ways(weights: List[int], capacity: int) -> int:
+    dp = [0] * (capacity + 1)
+    dp[0] = 1
+    for w in weights:
+        for j in range(capacity, w - 1, -1):
+            dp[j] += dp[j - w]
+    return dp[capacity]
+
+
+# === Problem Type 4: Find all valid subsets that sum to exactly capacity ===
+
+# Version 4: Return all valid subsets that sum to exactly capacity
+def knapsack_find_all_subsets(weights: List[int], capacity: int) -> List[List[int]]:
+    result = []
+
+    def backtrack(index: int, curr: List[int], total: int):
+        if total > capacity:
+            return
+        if index == len(weights):
+            if total == capacity:
+                result.append(curr[:])
+            return
+        backtrack(index + 1, curr, total)
+        curr.append(weights[index])
+        backtrack(index + 1, curr, total + weights[index])
+        curr.pop()
+
+    backtrack(0, [], 0)
+    return result
+
+
+# === Problem Type 5: Minimum number of items to exactly reach capacity ===
+
+# Version 5: Minimum number of items needed to reach exactly the target
+def knapsack_min_items(weights: List[int], capacity: int) -> int:
+    INF = float('inf')
+    dp = [INF] * (capacity + 1)
+    dp[0] = 0
+    for w in weights:
+        for j in range(capacity, w - 1, -1):
+            if dp[j - w] != INF:
+                dp[j] = min(dp[j], dp[j - w] + 1)
+    return dp[capacity] if dp[capacity] != INF else -1
