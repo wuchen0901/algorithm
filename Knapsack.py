@@ -17,16 +17,19 @@ def knapsack_can_fill(weights: List[int], capacity: int) -> bool:
 
 # Version 1: combination-style backtracking
 def knapsack_combination(weights: List[int], values: List[int], capacity: int) -> int:
-    num_items = len(weights)
+    n = len(weights)
     max_value = 0
 
-    def backtrack(start: int, total_weight: int, total_value: int):
+    def backtrack(current_weight, current_value, start):
         nonlocal max_value
-        if total_weight > capacity:
+
+        if capacity < current_weight:
             return
-        max_value = max(max_value, total_value)
-        for i in range(start, num_items):
-            backtrack(i + 1, total_weight + weights[i], total_value + values[i])
+
+        max_value = max(max_value, current_value)
+
+        for i in range(start, n):
+            backtrack(current_weight + weights[i], current_value + values[i], i + 1)
 
     backtrack(0, 0, 0)
     return max_value
