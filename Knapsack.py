@@ -1,4 +1,3 @@
-from functools import lru_cache
 from typing import List
 
 
@@ -129,7 +128,7 @@ if __name__ == "__main__":
 
 # === Problem Type 3: Count the number of ways to fill the knapsack ===
 
-# Version 3: Number of ways to fill the knapsack exactly (Count solutions)
+# Version 1: Number of ways to fill the knapsack exactly (Count solutions)
 def knapsack_count_ways(weights: List[int], capacity: int) -> int:
     dp = [0] * (capacity + 1)
     dp[0] = 1
@@ -141,7 +140,7 @@ def knapsack_count_ways(weights: List[int], capacity: int) -> int:
 
 # === Problem Type 4: Find all valid subsets that sum to exactly capacity ===
 
-# Version 4: Return all valid subsets that sum to exactly capacity
+# Version 1: Return all valid subsets that sum to exactly capacity
 def knapsack_find_all_subsets(weights: List[int], capacity: int) -> List[List[int]]:
     result = []
 
@@ -163,7 +162,7 @@ def knapsack_find_all_subsets(weights: List[int], capacity: int) -> List[List[in
 
 # === Problem Type 5: Minimum number of items to exactly reach capacity ===
 
-# Version 5: Minimum number of items needed to reach exactly the target
+# Version 1: Minimum number of items needed to reach exactly the target
 def knapsack_min_items(weights: List[int], capacity: int) -> int:
     INF = float('inf')
     dp = [INF] * (capacity + 1)
