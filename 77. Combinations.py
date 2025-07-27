@@ -7,27 +7,31 @@ class SolutionForLoopPrune:
     """
 
     def combine(self, n: int, k: int) -> List[List[int]]:
-        result: List[List[int]] = []
+        nums = [i for i in range(1, n + 1)]
+        nums.sort()
 
-        def backtrack(start: int, path: List[int]) -> None:
+        combinations = []
+
+        def backtrack(path, start):
             if len(path) == k:
-                result.append(path.copy())
+                combinations.append(path.copy())
                 return
-            # Prune: ensure enough remaining numbers to reach k
-            max_start = n - (k - len(path)) + 1
-            for i in range(start, max_start + 1):
-                path.append(i)
-                backtrack(i + 1, path)
+
+            for i in range(start, len(nums)):
+                path.append(nums[i])
+                backtrack(path, i + 1)
                 path.pop()
 
-        backtrack(1, [])
-        return result
+        backtrack([], 0)
+
+        return combinations
 
 
 class SolutionChooseSkip:
     """
     Generate all combinations of k numbers from 1 to n using choose/skip backtracking with pruning.
     """
+
     def combine(self, candidates: List[int], k: int) -> List[List[int]]:
         result = []
 
