@@ -105,18 +105,24 @@ class Solution:
         # *   * * * * * * * *
         left, right = 0, len(height) - 1
         water = 0
-        level = 0
+        left_max, right_max = 0, 0
         while left < right:
             if height[left] < height[right]:
-                if height[left] < level:
-                    water += level - height[left]
+                if height[left] >= left_max:
+                    left_max = height[left]
                 else:
-                    level = height[left]
+                    water += left_max - height[left]
                 left += 1
             else:
-                if height[right] < level:
-                    water += level - height[right]
+                if height[right] >= right_max:
+                    right_max = height[right]
                 else:
-                    level = height[right]
+                    water += right_max - height[right]
                 right -= 1
         return water
+
+if __name__ == "__main__":
+    s = Solution()
+    test_input = [9, 6, 4, 8, 11]
+    print("Stack-based solution:", s.trap_stack(test_input))
+    print("Two-pointers solution:", s.trap_two_pointers(test_input))
