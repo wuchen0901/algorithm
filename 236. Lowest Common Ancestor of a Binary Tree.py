@@ -1,4 +1,4 @@
-from collections import deque, defaultdict
+from collections import deque
 
 
 class TreeNode:
@@ -10,23 +10,21 @@ class TreeNode:
 
 class Solution:
     def lowestCommonAncestor(self, root: TreeNode, p: TreeNode, q: TreeNode) -> TreeNode:
-        queue = deque([root])
         parents = {root: None}
+        queue = deque([root])
+
         while queue:
-            node = queue.pop()
+            node = queue.popleft()
             if node.left:
-                queue.append(node.left)
                 parents[node.left] = node
+                queue.append(node.left)
             if node.right:
-                queue.append(node.right)
                 parents[node.right] = node
+                queue.append(node.right)
 
-        ancestors = set()
-        while p:
-            ancestors.add(p)
-            p = parents[p]
+        pointer_p, pointer_q = p, q
+        while pointer_p != pointer_q:
+            pointer_p = parents[pointer_p] if pointer_p else q
+            pointer_q = parents[pointer_q] if pointer_q else p
 
-        while q not in ancestors:
-            q = parents[q]
-
-        return q
+        return pointer_p
