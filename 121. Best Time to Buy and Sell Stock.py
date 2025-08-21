@@ -3,12 +3,12 @@ from typing import List
 
 class Solution:
     def maxProfit(self, prices: List[int]) -> int:
-        hold = -prices[0]   # max profit if holding stock
-        cash = 0            # max profit if not holding stock
+        hold = -float('inf')  # max profit if holding stock
+        cash = 0  # max profit if not holding stock
 
-        for price in prices[1:]:
-            hold = max(hold, -price)       # either keep holding or buy cheaper
-            cash = max(cash, hold + price) # either keep cash or sell
+        for price in prices:
+            hold = max(hold, -price)  # either keep holding or buy cheaper
+            cash = max(cash, hold + price)  # either keep cash or sell
         return cash
         # 0 1 2 3 4 5
         # [7 1 5 3 6 4]
