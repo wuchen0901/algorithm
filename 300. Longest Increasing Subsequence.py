@@ -22,7 +22,23 @@ class Solution:
                 tails[index] = num
         return len(tails)
 
+    def lengthOfLIS_dp(self, nums: List[int]) -> int:
+        """
+        Quadratic-time DP solution (O(n^2)).
+        dp[i] = length of the longest strictly increasing subsequence that ends at index i.
+        """
+        if not nums:
+            return 0
+        n = len(nums)
+        dp = [1] * n
+        for i in range(n):
+            for j in range(i):
+                if nums[j] < nums[i] and dp[j] + 1 > dp[i]:
+                    dp[i] = dp[j] + 1
+        return max(dp)
 
 if __name__ == '__main__':
-    index = bisect_left([1, 2, 2, 3], 1.5, )
-    print(index)
+    nums = [10, 9, 2, 5, 3, 7, 101, 18]
+    s = Solution()
+    print('O(n log n) tails + binary search:', s.lengthOfLIS(nums))
+    print('O(n^2) DP:', s.lengthOfLIS_dp(nums))
