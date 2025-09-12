@@ -3,12 +3,13 @@ from typing import List
 
 class Solution:
     def maxProfit(self, prices):
-        hold = -float('inf')
-        sold = 0
-        for p in prices:
-            hold = max(hold, sold - p)
-            sold = max(sold, hold + p)
-        return sold
+        n = len(prices)
+        hold = [-float('inf')] * (n + 1)
+        sold = [0] * (n + 1)
+        for i in range(len(prices)):
+            hold[i + 1] = max(hold[i], sold[i] - prices[i])
+            sold[i + 1] = max(sold[i], hold[i] + prices[i])
+        return sold[n]
         # [7, 1, 5, 3, 6, 4]    min  profit
         #  7,                    7     0
         #  7, 1,                 1     0
