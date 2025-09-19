@@ -3,14 +3,17 @@ from typing import List
 
 class Solution:
     def canPartition(self, nums: List[int]) -> bool:
-        if sum(nums) % 2:
+        total = sum(nums)
+        if total % 2:
             return False
-        target = sum(nums) // 2
-        i = 0
+        half_sum = total // 2
+        bits = 1
         for n in nums:
-            i |= i << n
-            i |= 1 << n
-            if i & (1 << target):
+            if half_sum < n:
+                continue
+            bits |= bits << n
+            bits &= (1 << (half_sum + 1)) - 1
+            if bits & (1 << half_sum):
                 return True
         return False
 
