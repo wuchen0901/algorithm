@@ -3,6 +3,18 @@ from typing import List
 
 
 class Solution:
+    def canReachTarget(self, nums: List[int], target: int) -> bool:
+        S = sum(nums)
+        # 必要条件：|target| <= S 且 S 与 target 同奇偶
+        if abs(target) > S or ((S - target) & 1):
+            return False
+
+        reachable = {0}
+        for n in nums:
+            # 不能在遍历时往同一个 set 里加
+            reachable = {s + n for s in reachable} | {s - n for s in reachable}
+        return target in reachable
+
     def findTargetSumWaysV1(self, nums: List[int], target: int) -> int:
         counter = {0: 1}
         for n in nums:
