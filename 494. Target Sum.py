@@ -1,20 +1,18 @@
 from collections import defaultdict
-from functools import lru_cache
 from typing import List
 
 
 class Solution:
-    def findTargetSumWays(self, nums: List[int], target: int) -> int:
-        @lru_cache(maxsize=None)
-        def dfs(pre_sum, i):
-            if i == len(nums):
-                if pre_sum == target:
-                    return 1
-                return 0
+    def findTargetSumWaysV1(self, nums: List[int], target: int) -> int:
+        counter = {0: 1}
+        for n in nums:
+            counts = defaultdict(int)
+            for num, count in counter.items():
+                counts[num + n] += count
+                counts[num - n] += count
+            counter = counts
 
-            return dfs(pre_sum + nums[i], i + 1) + dfs(pre_sum - nums[i], i + 1)
-
-        return dfs(0, 0)
+        return counter[target]
 
     def findTargetSumWays_subset_sum(self, nums: List[int], target: int) -> int:
         total = sum(nums)
