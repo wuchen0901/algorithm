@@ -1,3 +1,4 @@
+from collections import defaultdict
 from typing import List
 
 
@@ -128,6 +129,7 @@ if __name__ == "__main__":
 
 # === Problem Type 3: Count the number of ways to fill the knapsack ===
 
+
 # Version 1: Number of ways to fill the knapsack exactly (Count solutions)
 def knapsack_count_ways(weights: List[int], capacity: int) -> int:
     dp = [0] * (capacity + 1)
@@ -135,6 +137,38 @@ def knapsack_count_ways(weights: List[int], capacity: int) -> int:
     for w in weights:
         for j in range(capacity, w - 1, -1):
             dp[j] += dp[j - w]
+    return dp[capacity]
+
+
+# Version 2: Number of ways (Complete/Unbounded Knapsack) — combinations (order DOES NOT matter)
+def complete_knapsack_count_ways(weights: List[int], capacity: int) -> int:
+    """
+    Count combinations to reach exactly `capacity` using unlimited copies of each weight.
+    Order does NOT matter: [1,2,2] and [2,1,2] are the same.
+    """
+    # sanitize: remove non-positive and duplicates, and clip to capacity
+    ws = sorted({w for w in weights if 1 <= w <= capacity})
+    dp = [0] * (capacity + 1)
+    dp[0] = 1
+    for w in ws:
+        for c in range(w, capacity + 1):
+            dp[c] += dp[c - w]
+    return dp[capacity]
+
+
+# Version 3: Number of ways (Complete/Unbounded Knapsack) — permutations (order DOES matter)
+def complete_knapsack_count_permutations(weights: List[int], capacity: int) -> int:
+    """
+    Count permutations to reach exactly `capacity` using unlimited copies of each weight.
+    Order DOES matter: [1,2,2] and [2,1,2] are different.
+    """
+    ws = sorted({w for w in weights if 1 <= w <= capacity})
+    dp = [0] * (capacity + 1)
+    dp[0] = 1
+    for c in range(1, capacity + 1):
+        for w in ws:
+            if c >= w:
+                dp[c] += dp[c - w]
     return dp[capacity]
 
 
@@ -186,3 +220,18 @@ def canSum(nums: List[int], target: int) -> bool:
             return True
 
     return False
+
+
+def canSum(nums: List[int], target: int) -> int:
+    max_count = target // min(nums)
+
+    counts = {0: 1}
+    for count in range(1, max_count + 1):
+        next_counts = defaultdict(int)
+        for n, c in counts.items():
+            for num in nums:
+                next_counts[n + num] += c
+
+        counts = next_counts
+
+    return counts[target]
