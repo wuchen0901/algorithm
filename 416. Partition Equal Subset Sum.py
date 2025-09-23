@@ -3,7 +3,7 @@ from typing import List
 
 
 class Solution:
-    def canPartitionV3(self, nums: List[int]) -> bool:
+    def canPartitionV4(self, nums: List[int]) -> bool:
         total = sum(nums)
         if total % 2:
             return False
@@ -17,6 +17,21 @@ class Solution:
                 new_counts[k + n] += v
             counts = new_counts
         return counts[half] > 0
+
+    def canPartitionV3(self, nums: List[int]) -> bool:
+        total = sum(nums)
+        if total % 2:
+            return False
+        half = total // 2
+
+        counts = defaultdict(lambda: False)
+        counts[0] = True
+        for n in nums:
+            new_counts = defaultdict(lambda: False, counts)
+            for k, v in counts.items():
+                new_counts[k + n] = True
+            counts = new_counts
+        return counts[half]
 
     def canPartitionV2(self, nums: List[int]) -> bool:
         total = sum(nums)
