@@ -31,6 +31,7 @@ class SolutionDP:
     """Dynamic Programming reference solution.
     Time: O(amount * len(coins)), Space: O(amount)
     """
+
     def coinChange(self, coins: List[int], amount: int) -> int:
         if amount == 0:
             return 0
@@ -45,11 +46,30 @@ class SolutionDP:
                     dp[a] = min(dp[a], dp[a - c] + 1)
         return -1 if dp[amount] == INF else dp[amount]
 
+    def coinChangeV1(self, coins: List[int], amount: int) -> int:
+        if amount == 0:
+            return 0
+
+        reachable = {0}  # ✅ 起点
+        max_count = amount // min(coins)
+
+        for count in range(1, max_count + 1):
+            new_reachable = set()
+            for coin in coins:
+                # 基于“上一层”的 reachable 扩张到“下一层”
+                new_reachable |= {r + coin for r in reachable if r + coin <= amount}
+            if amount in new_reachable:
+                return count
+            reachable = new_reachable  # ✅ 层推进
+
+        return -1
+
 
 class SolutionBFS:
     """Clean BFS (layered) solution with early exit.
     Time: O(amount * len(coins)) in the worst case, Space: O(amount)
     """
+
     def coinChange(self, coins: List[int], amount: int) -> int:
         if amount == 0:
             return 0
