@@ -172,3 +172,17 @@ def knapsack_min_items(weights: List[int], capacity: int) -> int:
             if dp[j - w] != INF:
                 dp[j] = min(dp[j], dp[j - w] + 1)
     return dp[capacity] if dp[capacity] != INF else -1
+
+
+# Complete Knapsack Problem
+def canSum(nums: List[int], target: int) -> bool:
+    max_count = target // min(nums)
+
+    reachable = {0}
+    for count in range(1, max_count + 1):
+        reachable = {s + num for num in nums for s in reachable if s + num <= target}
+
+        if target in reachable:
+            return True
+
+    return False
