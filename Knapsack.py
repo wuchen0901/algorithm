@@ -119,14 +119,6 @@ def knapsack_dp_optimized(weights: List[int], values: List[int], capacity: int) 
     return dp[capacity]
 
 
-if __name__ == "__main__":
-    weights = [2, 3, 4, 5]
-    values = [3, 4, 5, 6]
-    capacity = 5
-    result = knapsack_backtrack_optimized(weights, values, capacity)
-    print("Maximum value:", result)  # Expected output: 4
-
-
 # === Problem Type 3: Count the number of ways to fill the knapsack ===
 
 
@@ -208,8 +200,9 @@ def knapsack_min_items(weights: List[int], capacity: int) -> int:
     return dp[capacity] if dp[capacity] != INF else -1
 
 
-# Complete Knapsack Problem
-def canSum(nums: List[int], target: int) -> bool:
+#
+# Unbounded Knapsack Problem
+def can_reach_unbounded(nums: List[int], target: int) -> bool:
     max_count = target // min(nums)
 
     reachable = {0}
@@ -222,16 +215,56 @@ def canSum(nums: List[int], target: int) -> bool:
     return False
 
 
-def canSum(nums: List[int], target: int) -> int:
-    max_count = target // min(nums)
+from collections import defaultdict
+from typing import List, Dict
 
-    counts = {0: 1}
-    for count in range(1, max_count + 1):
-        next_counts = defaultdict(int)
-        for n, c in counts.items():
-            for num in nums:
-                next_counts[n + num] += c
 
-        counts = next_counts
+def count_ordered_sums_unbounded(nums: List[int], target: int) -> int:
+    """
+    Count the number of ORDERED sequences (permutations with repetition allowed)
+    drawn from `nums` that sum to `target`, where sequence length is between 1
+    and floor(target / min(nums)). This is intentionally order-sensitive:
+    e.g., with nums=[1,2], target=3, the sequences [1,2] and [2,1] are distinct.
 
-    return counts[target]
+    Note: This matches a permutation-style counting (LC 377 style if you iterate over sums),
+    but here we advance by sequence length layers and accumulate across lengths.
+    """
+
+    max_len = target // min(nums)  # maximum sequence length allowed by smallest number
+
+    # Counts for sequences of EXACT length = 1: sum -> ways
+    curr_len_counts: Dict[int, int] = defaultdict(int)
+    for x in nums:
+        curr_len_counts[x] = 1
+
+    cumulative_counts = curr_len_counts.copy()
+
+    # Grow sequences by length: 2 .. max_len
+    for _len in range(2, max_len + 1):
+        next_len_counts: Dict[int, int] = defaultdict(int)
+        for sum_so_far, ways in curr_len_counts.items():
+            for x in nums:
+                next_len_counts[sum_so_far + x] += ways
+
+        # accumulate counts across lengths (still ORDER-sensitive)
+        for s, w in next_len_counts.items():
+            cumulative_counts[s] += w
+
+        curr_len_counts = next_len_counts
+
+    return cumulative_counts[target]
+
+
+print("count_ordered_sums: ", count_ordered_sums_unbounded([1, 2], 3))
+
+
+def count_combinations_unbounded(nums: List[int], target: int) -> int:
+    dp = [0] * (target + 1)
+    dp[0] = 1
+    for x in nums:  # iterate items
+        for s in range(x, target + 1):  # go UP for unbounded
+            dp[s] += dp[s - x]
+    return dp[target]
+
+
+print("count_combinations_unbounded: ", count_combinations_unbounded([1, 2], 3))
