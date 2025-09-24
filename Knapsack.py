@@ -1,5 +1,4 @@
-from collections import defaultdict
-from typing import List
+from typing import List, Counter
 
 
 # === Problem Type 1: Can we exactly fill the knapsack? ===
@@ -153,6 +152,10 @@ def complete_knapsack_count_permutations(weights: List[int], capacity: int) -> i
     """
     Count permutations to reach exactly `capacity` using unlimited copies of each weight.
     Order DOES matter: [1,2,2] and [2,1,2] are different.
+    类型：完全背包 · 排列计数（顺序敏感，等价“有序组合”/ compositions）。
+    典型特征：外层按 sum 或长度推进会计入不同顺序；[1,2] 与 [2,1] 视为两种。
+    Type: Unbounded Knapsack · Permutation counting (order-sensitive, equivalent to compositions).
+    Typical characteristic: Outer loop by sum or length includes different orders; [1,2] and [2,1] are treated as two distinct ways.
     """
     ws = sorted({w for w in weights if 1 <= w <= capacity})
     dp = [0] * (capacity + 1)
@@ -203,6 +206,12 @@ def knapsack_min_items(weights: List[int], capacity: int) -> int:
 #
 # Unbounded Knapsack Problem
 def can_reach_unbounded(nums: List[int], target: int) -> bool:
+    """
+    类型：完全背包 · 可行性判定（是否存在解）。
+    典型特征：元素可重复使用；只需判断能否恰好达到 target；顺序是否去重不影响结论。
+    Type: Unbounded Knapsack · Feasibility check (existence).
+    Typical characteristic: Elements can be reused unlimited times; only need to check if target can be exactly reached; order or deduplication does not affect the result.
+    """
     max_count = target // min(nums)
 
     reachable = {0}
@@ -215,50 +224,45 @@ def can_reach_unbounded(nums: List[int], target: int) -> bool:
     return False
 
 
-from collections import defaultdict
-from typing import List, Dict
-
-
 def count_ordered_sums_unbounded(nums: List[int], target: int) -> int:
     """
     Count the number of ORDERED sequences (permutations with repetition allowed)
     drawn from `nums` that sum to `target`, where sequence length is between 1
     and floor(target / min(nums)). This is intentionally order-sensitive:
     e.g., with nums=[1,2], target=3, the sequences [1,2] and [2,1] are distinct.
-
-    Note: This matches a permutation-style counting (LC 377 style if you iterate over sums),
-    but here we advance by sequence length layers and accumulate across lengths.
+    类型：完全背包 · 排列计数（顺序敏感，等价“有序组合”/ compositions）。
+    典型特征：外层按 sum 或长度推进会计入不同顺序；[1,2] 与 [2,1] 视为两种。
+    Type: Unbounded Knapsack · Permutation counting (order-sensitive, equivalent to compositions).
+    Typical characteristic: Outer loop by sum or length includes different orders; [1,2] and [2,1] are treated as two distinct ways.
     """
 
     max_len = target // min(nums)  # maximum sequence length allowed by smallest number
 
-    # Counts for sequences of EXACT length = 1: sum -> ways
-    curr_len_counts: Dict[int, int] = defaultdict(int)
-    for x in nums:
-        curr_len_counts[x] = 1
+    curr = Counter({0: 1})
+    cumulative = Counter(curr)
 
-    cumulative_counts = curr_len_counts.copy()
+    for _len in range(1, max_len + 1):
+        next_counter = Counter()
+        for s, ways in curr.items():
+            for n in nums:
+                next_counter[s + n] += ways
 
-    # Grow sequences by length: 2 .. max_len
-    for _len in range(2, max_len + 1):
-        next_len_counts: Dict[int, int] = defaultdict(int)
-        for sum_so_far, ways in curr_len_counts.items():
-            for x in nums:
-                next_len_counts[sum_so_far + x] += ways
+        cumulative += next_counter
+        curr = next_counter
 
-        # accumulate counts across lengths (still ORDER-sensitive)
-        for s, w in next_len_counts.items():
-            cumulative_counts[s] += w
-
-        curr_len_counts = next_len_counts
-
-    return cumulative_counts[target]
+    return cumulative[target]
 
 
 print("count_ordered_sums: ", count_ordered_sums_unbounded([1, 2], 3))
 
 
 def count_combinations_unbounded(nums: List[int], target: int) -> int:
+    """
+    类型：完全背包 · 组合计数（顺序不敏感，去重）。
+    典型特征：外层遍历物品、内层容量递增；[1,2,2] 与 [2,1,2]只算一种。
+    Type: Unbounded Knapsack · Combination counting (order-insensitive, deduplicated).
+    Typical characteristic: Outer loop iterates items, inner loop increases capacity; [1,2,2] and [2,1,2] count as one way.
+    """
     dp = [0] * (target + 1)
     dp[0] = 1
     for x in nums:  # iterate items
