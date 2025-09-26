@@ -1,4 +1,5 @@
-from typing import List, Counter
+from collections import defaultdict
+from typing import List, Counter, Dict
 
 
 # === Problem Type 1: Can we exactly fill the knapsack? ===
@@ -256,7 +257,43 @@ def count_ordered_sums_unbounded(nums: List[int], target: int) -> int:
 print("count_ordered_sums: ", count_ordered_sums_unbounded([1, 2], 3))
 
 
-def count_combinations_unbounded(nums: List[int], target: int) -> int:
+def count_combinations_unbounded_v1(nums: List[int], target: int) -> int:
+    if target == 0:
+        return 1
+    max_len = target // min(nums)
+
+    curr: Dict[int, Dict[int, int]] = defaultdict(lambda: defaultdict(int))
+    for n in nums:
+        curr[n][n] = 1
+
+    cumulative = Counter()
+
+    for s, last_element_to_ways in curr.items():
+        cumulative[s] = sum(last_element_to_ways.values())
+
+    for _len in range(2, max_len + 1):
+        next_counter: Dict[int, Dict[int, int]] = defaultdict(lambda: defaultdict(int))
+        for s, last_element_to_ways in curr.items():
+            for last_element, ways in last_element_to_ways.items():
+                for n in nums:
+                    if n <= last_element:
+                        next_counter[s + n][n] += ways
+
+        if not next_counter:
+            break
+
+        for k, v in next_counter.items():
+            cumulative[k] += sum(v.values())
+
+        curr = next_counter
+
+    return cumulative[target]
+
+
+print("count_combinations_unbounded_v1: ", count_combinations_unbounded_v1([1, 2, 5], 5))
+
+
+def count_combinations_unbounded_v2(nums: List[int], target: int) -> int:
     """
     类型：完全背包 · 组合计数（顺序不敏感，去重）。
     典型特征：外层遍历物品、内层容量递增；[1,2,2] 与 [2,1,2]只算一种。
@@ -271,4 +308,4 @@ def count_combinations_unbounded(nums: List[int], target: int) -> int:
     return dp[target]
 
 
-print("count_combinations_unbounded: ", count_combinations_unbounded([1, 2], 3))
+print("count_combinations_unbounded_v2: ", count_combinations_unbounded_v2([1, 2], 3))
