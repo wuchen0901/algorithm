@@ -31,9 +31,34 @@ class Solution:
             for k, v in next_counter.items():
                 cumulative[k] += sum(v.values())
 
-            curr = next_counter
-
         return cumulative[amount]
 
+    def change_v2(self, amount: int, coins: List[int]) -> int:
+        if amount == 0:
+            return 1
 
+        coins.sort()
+        dp: List[List[int]] = [[0] * len(coins) for _ in range(amount + 1)]
+        for i, n in enumerate(coins):
+            if n <= amount:
+                dp[n][i] = 1
+
+        for i in range(amount):
+            # 5
+            for j, last_number in enumerate(coins):
+                # j: 1      last_number: 3
+
+                for index, last in enumerate(coins):  # (num for num in nums if last_number <= num):
+                    # index: 0      last: 2
+                    # index: 1      last: 3
+                    if j <= index:
+                        if i + last <= amount:
+                            dp[i + last][index] += dp[i][j]
+
+        return sum(dp[amount])
+
+
+print(Solution().change_v2(0, [1, 2]))
+print(Solution().change_v2(0, []))
+print(Solution().change_v2(5000, [1, 2]))
 print(Solution().change(5000, [1, 2]))

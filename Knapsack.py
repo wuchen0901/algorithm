@@ -343,6 +343,34 @@ print("count_combinations_unbounded_v3: ", count_combinations_unbounded_v3([1, 2
 
 
 def count_combinations_unbounded_v4(nums: List[int], target: int) -> int:
+    if target == 0:
+        return 1
+
+    nums.sort()
+    dp: List[List[int]] = [[0] * len(nums) for _ in range(target + 1)]
+    for i, n in enumerate(nums):
+        if n <= target:
+            dp[n][i] = 1
+
+    for i in range(1, target):
+        # 5
+        for j, last_number in enumerate(nums):
+            # j: 1      last_number: 3
+
+            for index, last in enumerate(nums):  # (num for num in nums if last_number <= num):
+                # index: 0      last: 2
+                # index: 1      last: 3
+                if j <= index:
+                    if i + last <= target:
+                        dp[i + last][index] += dp[i][j]
+
+    return sum(dp[target])
+
+
+print("count_combinations_unbounded_v4: ", count_combinations_unbounded_v4([1, 2, 7], 30))
+
+
+def count_combinations_unbounded_v5(nums: List[int], target: int) -> int:
     """
     类型：完全背包 · 组合计数（顺序不敏感，去重）。
     典型特征：外层遍历物品、内层容量递增；[1,2,2] 与 [2,1,2]只算一种。
@@ -357,4 +385,4 @@ def count_combinations_unbounded_v4(nums: List[int], target: int) -> int:
     return dp[target]
 
 
-print("count_combinations_unbounded_v4: ", count_combinations_unbounded_v4([1, 2], 3))
+print("count_combinations_unbounded_v5: ", count_combinations_unbounded_v5([1, 2, 7], 30))
