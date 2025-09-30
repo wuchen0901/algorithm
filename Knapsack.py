@@ -294,6 +294,55 @@ print("count_combinations_unbounded_v1: ", count_combinations_unbounded_v1([1, 2
 
 
 def count_combinations_unbounded_v2(nums: List[int], target: int) -> int:
+    nums.sort()
+    res = []
+
+    def backtrack(curr: List[int], curr_sum: int, start: int):
+        if target <= curr_sum:
+            if target == curr_sum:
+                res.append(curr[:])
+            return
+
+        for i in range(start, len(nums)):
+            curr.append(nums[i])
+            curr_sum += nums[i]
+            backtrack(curr, curr_sum, i)
+            curr.pop()
+            curr_sum -= nums[i]
+
+    backtrack([], 0, 0)
+
+    return len(res)
+
+
+print("count_combinations_unbounded_v2: ", count_combinations_unbounded_v2([1, 2, 5], 5))
+
+
+def count_combinations_unbounded_v3(nums: List[int], target: int) -> int:
+    nums.sort()
+    res = 0
+
+    def backtrack(curr_sum: int, start: int):
+        nonlocal res
+        if target <= curr_sum:
+            if target == curr_sum:
+                res += 1
+            return
+
+        for i in range(start, len(nums)):
+            curr_sum += nums[i]
+            backtrack(curr_sum, i)
+            curr_sum -= nums[i]
+
+    backtrack(0, 0)
+
+    return res
+
+
+print("count_combinations_unbounded_v3: ", count_combinations_unbounded_v3([1, 2, 5], 5))
+
+
+def count_combinations_unbounded_v4(nums: List[int], target: int) -> int:
     """
     类型：完全背包 · 组合计数（顺序不敏感，去重）。
     典型特征：外层遍历物品、内层容量递增；[1,2,2] 与 [2,1,2]只算一种。
@@ -308,4 +357,4 @@ def count_combinations_unbounded_v2(nums: List[int], target: int) -> int:
     return dp[target]
 
 
-print("count_combinations_unbounded_v2: ", count_combinations_unbounded_v2([1, 2], 3))
+print("count_combinations_unbounded_v4: ", count_combinations_unbounded_v4([1, 2], 3))
