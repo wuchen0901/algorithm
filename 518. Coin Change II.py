@@ -44,16 +44,11 @@ class Solution:
                 dp[n][i] = 1
 
         for i in range(amount):
-            # 5
-            for j, last_number in enumerate(coins):
-                # j: 1      last_number: 3
-
-                for index, last in enumerate(coins):  # (num for num in nums if last_number <= num):
-                    # index: 0      last: 2
-                    # index: 1      last: 3
+            for j in range(len(coins)):
+                for index, coin in enumerate(coins):
                     if j <= index:
-                        if i + last <= amount:
-                            dp[i + last][index] += dp[i][j]
+                        if i + coin <= amount:
+                            dp[i + coin][index] += dp[i][j]
 
         return sum(dp[amount])
 
