@@ -353,16 +353,11 @@ def count_combinations_unbounded_v4(nums: List[int], target: int) -> int:
             dp[n][i] = 1
 
     for i in range(1, target):
-        # 5
-        for j, last_number in enumerate(nums):
-            # j: 1      last_number: 3
-
-            for index, last in enumerate(nums):  # (num for num in nums if last_number <= num):
-                # index: 0      last: 2
-                # index: 1      last: 3
+        for j in range(len(nums)):
+            for index, n in enumerate(nums):
                 if j <= index:
-                    if i + last <= target:
-                        dp[i + last][index] += dp[i][j]
+                    if i + n <= target:
+                        dp[i + n][index] += dp[i][j]
 
     return sum(dp[target])
 
