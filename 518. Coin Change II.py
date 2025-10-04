@@ -4,34 +4,24 @@ from typing import List, Counter, Dict
 
 class Solution:
     def change(self, amount: int, coins: List[int]) -> int:
-        if amount == 0:
-            return 1
-        max_len = amount // min(coins)
+        coins.sort()
 
-        curr: Dict[int, Dict[int, int]] = defaultdict(lambda: defaultdict(int))
-        for n in coins:
-            curr[n][n] = 1
+        count = 0
 
-        cumulative = Counter()
+        def backtrack(curr: List[int], start: int):
+            nonlocal count
+            if amount < sum(curr):
+                if amount == sum(curr):
+                    count += 1
+                return
 
-        for s, last_element_to_ways in curr.items():
-            cumulative[s] = sum(last_element_to_ways.values())
+            for i in range(start, len(curr)):
+                curr.append(curr[i])
+                backtrack(curr, i)
+                curr.pop()
 
-        for _len in range(2, max_len + 1):
-            next_counter: Dict[int, Dict[int, int]] = defaultdict(lambda: defaultdict(int))
-            for s, last_element_to_ways in curr.items():
-                for last_element, ways in last_element_to_ways.items():
-                    for n in coins:
-                        if n <= last_element:
-                            next_counter[s + n][n] += ways
-
-            if not next_counter:
-                break
-
-            for k, v in next_counter.items():
-                cumulative[k] += sum(v.values())
-
-        return cumulative[amount]
+        backtrack([], 0)
+        return count
 
     def change_v2(self, amount: int, coins: List[int]) -> int:
         if amount == 0:
