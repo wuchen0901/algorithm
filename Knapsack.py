@@ -347,19 +347,29 @@ def count_combinations_unbounded_v4(nums: List[int], target: int) -> int:
         return 1
 
     nums.sort()
-    dp: List[List[int]] = [[0] * len(nums) for _ in range(target + 1)]
-    for i, n in enumerate(nums):
-        if n <= target:
-            dp[n][i] = 1
+    n = len(nums)
+    dp: List[List[int]] = [[0 for _ in range(target + 1)] for _ in range(n + 1)]
+    dp[0][0] = 1
 
-    for i in range(1, target):
-        for j in range(len(nums)):
-            for index, n in enumerate(nums):
-                if j <= index:
-                    if i + n <= target:
-                        dp[i + n][index] += dp[i][j]
+    #     coin\sum      0   1   2   3   4   5   6   7
+    #   nums[0]:[]      1   0
+    #   nums[1]:[1]     1   1   1   1   1   1   1   1
+    #   nums[2]:[1, 3]  1   1   1   2   2   2   3   3
+    # 1 + 3 + 3
+    # 1 + 1 + 1 + 1 + 3
+    # 1 + 1 + 1 + 1 + 1 + 1 + 1
+    for c in range(1, n + 1):
+        for s in range(target + 1):
+            dp[c][s] = dp[c - 1][s]
+            # dp[1][0] = dp[0][0]
+            # dp[1][7] = dp[0][7]
+            if 0 <= s - nums[c - 1]:
+                dp[c][s] += dp[c][s - nums[c - 1]]
+                # dp[1][1] += dp[1][0]
+                # dp[1][7] += dp[1][6]
+                # c = 1, s = target, dp[1][7 - 1]:1
 
-    return sum(dp[target])
+    return dp[n][target]
 
 
 print("count_combinations_unbounded_v4: ", count_combinations_unbounded_v4([1, 2, 7], 30))
