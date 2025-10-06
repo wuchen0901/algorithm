@@ -391,3 +391,33 @@ def count_combinations_unbounded_v5(nums: List[int], target: int) -> int:
 
 
 print("count_combinations_unbounded_v5: ", count_combinations_unbounded_v5([1, 2, 7], 30))
+
+from typing import List
+
+
+def knapsack_v1(weights: List[int], values: List[int], W: int) -> int:
+    """
+    weights: list of item weights
+    values:  list of item values
+    W:       maximum capacity of the knapsack
+    return:  maximum achievable total value
+    """
+    n = len(weights)
+    dp = [[0] * (W + 1) for _ in range(n + 1)]
+    for item in range(1, n + 1):
+        for capacity in range(1, W + 1):
+            dp[item][capacity] = max(dp[item - 1][capacity],
+                                     (dp[item][capacity - weights[item - 1]] + values[item - 1]) if 0 <= capacity -
+                                                                                                    weights[
+                                                                                                        item - 1]
+                                     else 0)
+    return dp[n][W]
+    # weight: 3 5 1 2
+    # value : 4 2 3 1
+    # W     : 8
+    # 0 1 2 3 4   5 6 7 8
+    #
+    # 0 0 0 0 0
+    # 0 0 0 4 4   4  8  8  8
+    # 0 0 0 4 4   4  8  8  8
+    # 0 3 6 9 12 15 18 21 24
