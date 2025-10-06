@@ -42,8 +42,22 @@ class Solution:
 
         return sum(dp[amount])
 
+    def change_v3(self, amount: int, coins: List[int]) -> int:
+        coins.sort()
+        n = len(coins)
+        dp = [[0] * (amount + 1) for _ in range(n + 1)]
+        dp[0][0] = 1
+        for i in range(1, n + 1):
+            for j in range(amount + 1):
+                dp[i][j] = dp[i - 1][j]
+                if 0 <= j - coins[i - 1]:
+                    dp[i][j] += dp[i][j - coins[i - 1]]
 
-print(Solution().change_v2(0, [1, 2]))
+        return dp[n][amount]
+
+
+print(Solution().change_v3(10, [2, 3, 5]))
+print(Solution().change_v2(10, [2, 3, 5]))
 print(Solution().change_v2(0, []))
 print(Solution().change_v2(5000, [1, 2]))
 print(Solution().change(5000, [1, 2]))
