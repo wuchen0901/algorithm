@@ -3,16 +3,16 @@
 from typing import List
 
 
-def knapsack_can_fill_01(weights: List[int], capacity: int) -> bool:
+def knapsack_feasibility_01(weights: List[int], capacity: int) -> bool:
     """
     0-1 knapsack feasibility: can we select items (each at most once)
-    whose weights sum exactly to ``capacity``?
+    whose weights sum exactly to ``capacity``? Returns True if feasible.
     """
     dp = [False] * (capacity + 1)
     dp[0] = True
-    for w in weights:
-        for total in range(capacity, w - 1, -1):
-            dp[total] = dp[total] or dp[total - w]
+    for weight in weights:
+        for i in range(capacity, weight - 1, -1):
+            dp[i] = dp[i] or dp[i - weight]
     return dp[capacity]
 
 
@@ -71,7 +71,8 @@ def knapsack_min_items(weights: List[int], capacity: int) -> int:
 
 
 __all__ = [
-    "knapsack_can_fill_01",
+    "knapsack_can_fill_01_counting",
+    "knapsack_feasibility_01",
     "knapsack_can_fill_unbounded",
     "knapsack_min_items",
 ]
