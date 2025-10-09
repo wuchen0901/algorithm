@@ -35,6 +35,29 @@ def knapsack_can_fill_unbounded(nums: List[int], target: int) -> bool:
     return False
 
 
+def knapsack_can_fill_unbounded_v2(nums: List[int], target: int) -> bool:
+    """
+    Unbounded knapsack feasibility: can we reuse items to hit `target` exactly?
+    Assumes all nums[i] > 0. Negative or zero weights are invalid.
+    """
+    if not nums:
+        return False
+
+    l = len(nums)
+    dp = [[0 for _ in range(target + 1)] for _ in range(l + 1)]
+    for i in range(1, l + 1):
+        num = nums[i - 1]
+        for used_capacity in range(target + 1):
+            dp[i][used_capacity] = dp[i - 1][used_capacity]
+            if 0 <= used_capacity - num:
+                dp[i][used_capacity] = max(dp[i][used_capacity], dp[i][used_capacity - num] + num)
+
+    return dp[l][target] == target
+
+
+print("knapsack_can_fill_unbounded_v2", knapsack_can_fill_unbounded_v2([9, 5, 17], 30))
+
+
 def knapsack_min_items(weights: List[int], capacity: int) -> int:
     """Minimum number of items (0-1) needed to reach ``capacity`` exactly; ``-1`` if impossible."""
     INF = float("inf")
