@@ -26,6 +26,24 @@ class Solution:
 
         return counts.get(amount, -1)
 
+    def coinChange_v2(self, coins: List[int], amount: int) -> int:
+        l = len(coins)
+        dp = [[float('inf')] * (amount + 1) for _ in range(l + 1)]
+        for i in range(l + 1):
+            dp[i][0] = 0
+
+        for i in range(1, l + 1):
+            coin = coins[i - 1]
+            for a in range(amount + 1):
+                dp[i][a] = dp[i - 1][a]  # not use coin
+                if a - coin >= 0 and dp[i][a - coin] != float('inf'):
+                    dp[i][a] = min(dp[i][a], dp[i][a - coin] + 1)
+
+        return -1 if dp[l][amount] == float('inf') else dp[l][amount]
+
+
+print(Solution().coinChange_v2([1, 4, 6], 12))
+
 
 class SolutionDP:
     """Dynamic Programming reference solution.
