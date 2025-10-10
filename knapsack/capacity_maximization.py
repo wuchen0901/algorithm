@@ -32,6 +32,9 @@ def knapsack_capacity_max_01(weights: List[int], capacity: int) -> int:
     return dp[l][capacity]
 
 
+print(knapsack_capacity_max_01([4, 2, 3], 13))
+
+
 def knapsack_capacity_max_unbounded(weights: List[int], capacity: int) -> int:
     """Maximum total weight not exceeding ``capacity`` with unlimited copies of each item."""
     dp = [0] * (capacity + 1)
@@ -43,4 +46,21 @@ def knapsack_capacity_max_unbounded(weights: List[int], capacity: int) -> int:
     return max(dp)
 
 
-__all__ = ["knapsack_capacity_max_01", "knapsack_capacity_max_unbounded"]
+def knapsack_capacity_max_unbounded_2d(weights: List[int], capacity: int) -> int:
+    """Maximum total weight not exceeding ``capacity`` with unlimited copies of each item (2D DP)."""
+    n = len(weights)
+    dp = [[0] * (capacity + 1) for _ in range(n + 1)]
+
+    for i in range(1, n + 1):
+        w = weights[i - 1]
+        for c in range(capacity + 1):
+            dp[i][c] = dp[i - 1][c]
+            if c >= w:
+                dp[i][c] = max(dp[i][c], dp[i][c - w] + w)
+
+    return dp[n][capacity]
+
+
+print(knapsack_capacity_max_unbounded_2d([7, 5, 12], 15))
+
+__all__ = ["knapsack_capacity_max_01", "knapsack_capacity_max_unbounded", "knapsack_capacity_max_unbounded_2d"]

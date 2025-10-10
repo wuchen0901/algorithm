@@ -29,6 +29,31 @@ def knapsack_max_items_01(weights: Iterable[int], capacity: int) -> int:
     return int(best)
 
 
+def knapsack_max_items_unbounded_2d(weights: Iterable[int], capacity: int) -> int:
+    """
+    Unbounded knapsack: 2D DP version.
+    Maximum number of items that can be packed without exceeding ``capacity``.
+    Returns 0 if no feasible packing exists.
+    """
+    valid = _sanitize_weights(weights, capacity)
+    if not valid:
+        return 0
+
+    n = len(valid)
+    dp = [[-inf] * (capacity + 1) for _ in range(n + 1)]
+    dp[0][0] = 0
+
+    for i in range(1, n + 1):
+        w = valid[i - 1]
+        for c in range(capacity + 1):
+            dp[i][c] = dp[i - 1][c]
+            if c >= w and dp[i][c - w] != -inf:
+                dp[i][c] = max(dp[i][c], dp[i][c - w] + 1)
+
+    best = max((count for count in dp[n] if count >= 0), default=0)
+    return int(best)
+
+
 def knapsack_max_items_unbounded(weights: Iterable[int], capacity: int) -> int:
     """
     Unbounded knapsack: maximum item count with unlimited copies per item
@@ -112,9 +137,12 @@ def knapsack_min_items_unbounded_2d(weights: Iterable[int], target: int) -> int:
     return int(dp[n][target]) if dp[n][target] != inf else -1
 
 
+print(knapsack_min_items_unbounded_2d([4, 2, 3], 13))
+
 __all__ = [
     "knapsack_max_items_01",
     "knapsack_max_items_unbounded",
+    "knapsack_max_items_unbounded_2d",
     "knapsack_min_items_01",
     "knapsack_min_items_unbounded",
     "knapsack_min_items_unbounded_2d",
