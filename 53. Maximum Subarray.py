@@ -30,28 +30,20 @@ class Solution:
         return best
 
     def maxSubArray_v1(self, nums: List[int]) -> int:
-        n = len(nums)
-        l = 0
-        r = 0  # window is [l, r)
-        curr = 0
-        best = nums[0]
-        best_l = 0
-        best_r = 1
-
-        while r < n:
-            curr += nums[r]
-            r += 1
-
-            if curr > best:
+        left = right = l = r = 0
+        curr = best = 0
+        while right < len(nums):
+            curr += nums[right]
+            right += 1
+            if best < curr:
                 best = curr
-                best_l, best_r = l, r
-
+                l = left
+                r = right
             if curr < 0:
-                # reset window AFTER consuming nums[r-1]
+                left = right
                 curr = 0
-                l = r
 
-        print("left:", best_l, ", right:", best_r - 1, ", sum:", best)
+        print('left: ', l, ', right: ', r - 1)
         return best
 
     # ---------- 2) Variant that also returns indices ----------
