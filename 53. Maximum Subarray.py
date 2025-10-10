@@ -1,3 +1,4 @@
+from math import inf
 from typing import List, Tuple
 
 
@@ -26,6 +27,31 @@ class Solution:
             # Either extend the previous subarray or start fresh at x
             cur = max(x, cur + x)
             best = max(best, cur)
+        return best
+
+    def maxSubArray_v1(self, nums: List[int]) -> int:
+        n = len(nums)
+        l = 0
+        r = 0  # window is [l, r)
+        curr = 0
+        best = nums[0]
+        best_l = 0
+        best_r = 1
+
+        while r < n:
+            curr += nums[r]
+            r += 1
+
+            if curr > best:
+                best = curr
+                best_l, best_r = l, r
+
+            if curr < 0:
+                # reset window AFTER consuming nums[r-1]
+                curr = 0
+                l = r
+
+        print("left:", best_l, ", right:", best_r - 1, ", sum:", best)
         return best
 
     # ---------- 2) Variant that also returns indices ----------
@@ -92,7 +118,7 @@ class Solution:
         for s, L, R in runs[1:]:
             if cur_sum + s < s:  # start new at this run
                 cur_sum, cur_L, cur_R = s, L, R
-            else:                # extend previous
+            else:  # extend previous
                 cur_sum += s
                 cur_R = R
 
@@ -106,13 +132,15 @@ if __name__ == "__main__":
     solution = Solution()
 
     # Basic check (classic Kadane)
-    arr = [0, 1, 2, -1, -2, 2, 1, -2, 1, 4, -5, 4]
-    print("Kadane sum:", solution.maxSubArray(arr))
+    nums = [-2, 1, -3, 4, -1, 2, 1, -5, 4]
+    print("Kadane sum:", solution.maxSubArray(nums))
+
+    print("maxSubArray_v1: ", solution.maxSubArray_v1(nums))
 
     # Indices variant
-    s, l, r = solution.maxSubArray_with_indices(arr)
-    print("Kadane with indices:", s, (l, r), "subarray:", arr[l:r+1])
+    s, l, r = solution.maxSubArray_with_indices(nums)
+    print("Kadane with indices:", s, (l, r), "subarray:", nums[l:r + 1])
 
     # Compressed variant (optional)
-    s2, l2, r2 = solution.maxSubArray_on_compressed(arr)
-    print("Compressed Kadane:", s2, (l2, r2), "subarray:", arr[l2:r2+1])
+    s2, l2, r2 = solution.maxSubArray_on_compressed(nums)
+    print("Compressed Kadane:", s2, (l2, r2), "subarray:", nums[l2:r2 + 1])
