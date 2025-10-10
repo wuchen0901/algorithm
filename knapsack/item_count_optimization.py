@@ -85,9 +85,37 @@ def knapsack_min_items_unbounded(weights: Iterable[int], target: int) -> int:
     return int(dp[target]) if dp[target] != inf else -1
 
 
+# 2D DP version of unbounded knapsack for minimum number of items to reach target
+def knapsack_min_items_unbounded_2d(weights: Iterable[int], target: int) -> int:
+    """
+    Unbounded knapsack: 2D DP version.
+    Minimum number of items needed to reach ``target`` exactly.
+    Returns ``-1`` if ``target`` cannot be formed.
+    """
+    valid = _sanitize_weights(weights, target)
+    if target == 0:
+        return 0
+    if not valid:
+        return -1
+
+    n = len(valid)
+    dp = [[inf] * (target + 1) for _ in range(n + 1)]
+    dp[0][0] = 0
+
+    for i in range(1, n + 1):
+        w = valid[i - 1]
+        for t in range(target + 1):
+            dp[i][t] = dp[i - 1][t]
+            if t >= w and dp[i][t - w] != inf:
+                dp[i][t] = min(dp[i][t], dp[i][t - w] + 1)
+
+    return int(dp[n][target]) if dp[n][target] != inf else -1
+
+
 __all__ = [
     "knapsack_max_items_01",
     "knapsack_max_items_unbounded",
     "knapsack_min_items_01",
     "knapsack_min_items_unbounded",
+    "knapsack_min_items_unbounded_2d",
 ]
