@@ -1,1 +1,13 @@
-/.idea/
+.idea/
+.gradle/
+build/
+target/
+out/
+*.iml
+*.class
+*.log
+.DS_Store
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+venv/
