@@ -1,7 +1,6 @@
 package com.leetcode;
 
-class Solution {
-
+class LeetCode_209_Minimum_Size_Subarray_Sum {
     public int minSubArrayLenV2(int target, int[] nums) {
         long sum = 0;
         int l = 0, r = 0;
