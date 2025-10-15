@@ -8,3 +8,4 @@
 | 在进行编程面试时                              | during a coding interview                               | when doing coding interview                |
 | 退出 while 循环之后                           | After exiting the while loop                            | When quit while loop                       |
 | TreeNode 类通常应该放在哪个包中？             | Which package should the TreeNode class usually be put in? | Which package should tree node class usually put in |
+| 树的高度（概念）是什么？                      | What is the height of a tree?                           | what is height of a tree                   |
