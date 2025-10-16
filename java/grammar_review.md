@@ -9,3 +9,4 @@
 | 退出 while 循环之后                           | After exiting the while loop                            | When quit while loop                       |
 | TreeNode 类通常应该放在哪个包中？             | Which package should the TreeNode class usually be put in? | Which package should tree node class usually put in |
 | 树的高度（概念）是什么？                      | What is the height of a tree?                           | what is height of a tree                   |
+| 四种遍历方法都可以用显式栈实现吗？            | Can all four traversal methods be implemented using explicit stacks? | Can 4 traversal method all be implemented by explicit stacks? |
