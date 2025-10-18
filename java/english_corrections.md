@@ -11,3 +11,7 @@
 | 树的高度（概念）是什么？                      | What is the height of a tree?                           | what is height of a tree                   |
 | 四种遍历方法都可以用显式栈实现吗？            | Can all four traversal methods be implemented using explicit stacks? | Can 4 traversal method all be implemented by explicit stacks? |
 | 如何将 int[] 序列化为字符串，以及如何将其反序列化回 int[]？ | How can I serialize an `int[]` to a string and deserialize it back to an `int[]`? | How to serialize int[] into string, how to deserialize to int[] |
+| 告诉我一些最简单的图论问题                     | Tell me some of the simplest graph problems.            | tell me some simplest graph problems        |
+| 这些可以放入 Java 集合的类型不是基本类型        | These types that can be put into Java collections are not basic types. | these types which can be put in java collections are not basic types |
+| Java 集合只能存储引用类型，不能存储基本类型      | Java collections can only hold reference types, not primitive types. |                                            |
+| 我可以直接将引用类型与基本类型比较吗？         | Can I directly compare a reference type with a primitive type? | Can I just compare a reference type to a primitive type? |
