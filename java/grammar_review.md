@@ -10,3 +10,4 @@
 | TreeNode 类通常应该放在哪个包中？             | Which package should the TreeNode class usually be put in? | Which package should tree node class usually put in |
 | 树的高度（概念）是什么？                      | What is the height of a tree?                           | what is height of a tree                   |
 | 四种遍历方法都可以用显式栈实现吗？            | Can all four traversal methods be implemented using explicit stacks? | Can 4 traversal method all be implemented by explicit stacks? |
+| 如何将 int[] 序列化为字符串，以及如何将其反序列化回 int[]？ | How can I serialize an `int[]` to a string and deserialize it back to an `int[]`? | How to serialize int[] into string, how to deserialize to int[] |
