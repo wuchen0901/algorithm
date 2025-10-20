@@ -21,7 +21,7 @@ public class LeetCode_3_Longest_Substring_Without_Repeating_Characters {
             // move left until it doesn't contain duplicates
             while (1 < window.getOrDefault(c, 0)) {
                 // update window
-                window.computeIfPresent(s.charAt(l), (_, count) -> count == 1 ? null : count - 1);
+                window.computeIfPresent(s.charAt(l), (character, count) -> count == 1 ? null : count - 1);
                 l++;
             }
             // "abcabcbb"
