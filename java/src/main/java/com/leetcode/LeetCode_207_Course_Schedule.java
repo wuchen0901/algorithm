@@ -6,6 +6,7 @@ import java.util.Deque;
 import java.util.List;
 
 public class LeetCode_207_Course_Schedule {
+    // BFS Kahn's Algorithm solution
     public boolean canFinish(int numCourses, int[][] prerequisites) {
         List<List<Integer>> graph = new ArrayList<>(numCourses);
         for (int i = 0; i < numCourses; i++) {
@@ -41,5 +42,53 @@ public class LeetCode_207_Course_Schedule {
             }
         }
         return taken == numCourses;
+    }
+
+    // DFS 3-state solution using VISITED, VISITING, UNVISITED states
+    public static class DFS3StateSolution {
+        private static final int UNVISITED = 0;
+        private static final int VISITING = 1;
+        private static final int VISITED = 2;
+
+        public boolean canFinish(int numCourses, int[][] prerequisites) {
+            List<List<Integer>> graph = new ArrayList<>(numCourses);
+            for (int i = 0; i < numCourses; i++) {
+                graph.add(new ArrayList<>());
+            }
+            for (int[] prerequisite : prerequisites) {
+                int a = prerequisite[0];
+                int b = prerequisite[1];
+                graph.get(b).add(a);
+            }
+
+            int[] state = new int[numCourses];
+            for (int i = 0; i < numCourses; i++) {
+                if (state[i] == UNVISITED) {
+                    if (hasCycle(i, graph, state)) {
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+
+        private boolean hasCycle(int node, List<List<Integer>> graph, int[] state) {
+            if (state[node] == VISITING) {
+                // Cycle detected
+                return true;
+            }
+            if (state[node] == VISITED) {
+                return false;
+            }
+
+            state[node] = VISITING;
+            for (int neighbor : graph.get(node)) {
+                if (hasCycle(neighbor, graph, state)) {
+                    return true;
+                }
+            }
+            state[node] = VISITED;
+            return false;
+        }
     }
 }
