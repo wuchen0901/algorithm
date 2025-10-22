@@ -15,3 +15,4 @@
 | 这些可以放入 Java 集合的类型不是基本类型        | These types that can be put into Java collections are not basic types. | these types which can be put in java collections are not basic types |
 | Java 集合只能存储引用类型，不能存储基本类型      | Java collections can only hold reference types, not primitive types. |                                            |
 | 我可以直接将引用类型与基本类型比较吗？         | Can I directly compare a reference type with a primitive type? | Can I just compare a reference type to a primitive type? |
+| student 表中的 id 字段是自增整数               | The id field in the student table is an auto-increment integer. | the field id in the table student is autoincrecement integer. |
