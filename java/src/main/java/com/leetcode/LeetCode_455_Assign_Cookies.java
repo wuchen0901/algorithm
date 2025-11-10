@@ -21,4 +21,26 @@ public class LeetCode_455_Assign_Cookies {
 
         return contentCount;
     }
+
+    public int findContentChildrenV2(int[] g, int[] s) {
+        Integer[] G = Arrays.stream(g).boxed().toArray(Integer[]::new);
+        Integer[] S = Arrays.stream(s).boxed().toArray(Integer[]::new);
+        Arrays.sort(G, (a, b) -> b - a);
+        Arrays.sort(S, (a, b) -> b - a);
+
+        int i = 0; // child
+        int j = 0; // cookie
+        int content = 0;
+
+        while (i < G.length && j < S.length) {
+            if (S[j] >= G[i]) { // give big cookie to the greediest remaining child
+                content++;
+                i++;
+                j++;
+            } else {
+                i++; // try a less greedy child
+            }
+        }
+        return content;
+    }
 }
