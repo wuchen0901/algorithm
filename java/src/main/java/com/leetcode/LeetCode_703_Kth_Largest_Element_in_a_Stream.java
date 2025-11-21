@@ -1,27 +1,29 @@
 package com.leetcode;
 
+import java.util.Arrays;
 import java.util.PriorityQueue;
 
 public class LeetCode_703_Kth_Largest_Element_in_a_Stream {
     class KthLargest {
-        private final PriorityQueue<Integer> queue = new PriorityQueue<>();
-        private int k = 0;
+        private final PriorityQueue<Integer> minHeap;
+        private final int k;
 
         public KthLargest(int k, int[] nums) {
             this.k = k;
-            for (int num : nums) {
-                this.add(num);
+            minHeap = new PriorityQueue<>(Arrays.stream(nums).boxed().toList());
+            while (k < minHeap.size()) {
+                minHeap.poll();
             }
         }
 
         public int add(int val) {
-            queue.offer(val);
+            minHeap.offer(val);
 
-            while (k < queue.size()) {
-                queue.poll();
+            if (k < minHeap.size()) {
+                minHeap.poll();
             }
 
-            return queue.peek();
+            return minHeap.peek();
         }
     }
 }
