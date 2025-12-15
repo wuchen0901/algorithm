@@ -35,35 +35,22 @@ public class LeetCode_480_Sliding_Window_Median {
     private void add(int num) {
         minHeap.offer(num);
         maxHeap.offer(minHeap.poll());
-        prune(minHeap);
-        prune(maxHeap);
         maxHeapSize++;
         if (minHeapSize < maxHeapSize) {
-            prune(minHeap);
-            prune(maxHeap);
             minHeap.offer(maxHeap.poll());
-            prune(minHeap);
-            prune(maxHeap);
-
             maxHeapSize--;
             minHeapSize++;
         }
-
-//        rebalance();
     }
 
     // 从窗口里删除一个数（逻辑删除 + lazy deletion）
     private void remove(int num) {
-        prune(minHeap);
-        prune(maxHeap);
         delayed.put(num, delayed.getOrDefault(num, 0) + 1);
         if (!minHeap.isEmpty() && minHeap.peek() <= num) {
             minHeapSize--;
         } else if (!maxHeap.isEmpty() && num <= maxHeap.peek()) {
             maxHeapSize--;
         }
-        prune(minHeap);
-        prune(maxHeap);
         if (minHeapSize < maxHeapSize) {
             minHeap.offer(maxHeap.poll());
             maxHeapSize--;
@@ -73,25 +60,6 @@ public class LeetCode_480_Sliding_Window_Median {
             maxHeap.offer(minHeap.poll());
             minHeapSize--;
             maxHeapSize++;
-        }
-        prune(minHeap);
-        prune(maxHeap);
-    }
-
-    // 保持不变量：smallSize == largeSize 或 smallSize == largeSize + 1
-    private void rebalance() {
-        if (minHeapSize > maxHeapSize + 1) {
-            // small 太多，挪一个到 large
-            maxHeap.offer(minHeap.poll());
-            minHeapSize--;
-            maxHeapSize++;
-            prune(minHeap);
-        } else if (minHeapSize < maxHeapSize) {
-            // large 太多，挪一个到 small
-            minHeap.offer(maxHeap.poll());
-            maxHeapSize--;
-            minHeapSize++;
-            prune(maxHeap);
         }
     }
 
@@ -127,10 +95,10 @@ public class LeetCode_480_Sliding_Window_Median {
     public static void main(String[] args) {
         LeetCode_480_Sliding_Window_Median solution = new LeetCode_480_Sliding_Window_Median();
 
-        int[] nums = new int[]{-2147483648, -2147483648, 2147483647, -2147483648, 1, 3, -2147483648, -100, 8, 17, 22, -2147483648, -2147483648, 2147483647, 2147483647, 2147483647, 2147483647, -2147483648, 2147483647, -2147483648};
-        int k = 6;
+        int[] nums = new int[]{1, 3, -1, -3, 5, 3, 6, 7};
+        int k = 3;
 
-        double[] expected = new double[]{8.00000, 6.00000, 8.00000, 8.00000, 5.00000};
+        double[] expected = new double[]{1.00000, -1.00000, -1.00000, 3.00000, 5.00000, 6.00000};
 
         double[] actual = solution.medianSlidingWindow(nums, k);
         System.out.println("actual  = " + Arrays.toString(actual));
