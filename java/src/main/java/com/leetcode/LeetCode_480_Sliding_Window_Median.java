@@ -5,8 +5,8 @@ import java.util.*;
 public class LeetCode_480_Sliding_Window_Median {
 
     // small: max-heap, 存较小的一半；large: min-heap, 存较大的一半
-    private PriorityQueue<Integer> minHeap = new PriorityQueue<>(Collections.reverseOrder());
-    private PriorityQueue<Integer> maxHeap = new PriorityQueue<>();
+    private PriorityQueue<Integer> minHeap = new PriorityQueue<>();
+    private PriorityQueue<Integer> maxHeap = new PriorityQueue<>(Collections.reverseOrder());
     private Map<Integer, Integer> delayed = new HashMap<>();
 
     // 有效元素数量（不包括已标记 delayed 的）
@@ -36,34 +36,46 @@ public class LeetCode_480_Sliding_Window_Median {
         minHeap.offer(num);
         maxHeap.offer(minHeap.poll());
         prune(minHeap);
+        prune(maxHeap);
         maxHeapSize++;
+        if (minHeapSize < maxHeapSize) {
+            prune(minHeap);
+            prune(maxHeap);
+            minHeap.offer(maxHeap.poll());
+            prune(minHeap);
+            prune(maxHeap);
+
+            maxHeapSize--;
+            minHeapSize++;
+        }
+
+//        rebalance();
+    }
+
+    // 从窗口里删除一个数（逻辑删除 + lazy deletion）
+    private void remove(int num) {
+        prune(minHeap);
+        prune(maxHeap);
+        delayed.put(num, delayed.getOrDefault(num, 0) + 1);
+        if (!minHeap.isEmpty() && minHeap.peek() <= num) {
+            minHeapSize--;
+        } else if (!maxHeap.isEmpty() && num <= maxHeap.peek()) {
+            maxHeapSize--;
+        }
+        prune(minHeap);
+        prune(maxHeap);
         if (minHeapSize < maxHeapSize) {
             minHeap.offer(maxHeap.poll());
             maxHeapSize--;
             minHeapSize++;
         }
-
-        rebalance();
-    }
-
-    // 从窗口里删除一个数（逻辑删除 + lazy deletion）
-    private void remove(int num) {
-        delayed.put(num, delayed.getOrDefault(num, 0) + 1);
-
-        // 决定它属于哪个堆，修正 size
-        if (!minHeap.isEmpty() && num <= minHeap.peek()) {
+        if (maxHeapSize + 1 < minHeapSize) {
+            maxHeap.offer(minHeap.poll());
             minHeapSize--;
-            if (num == minHeap.peek()) {
-                prune(minHeap);
-            }
-        } else {
-            maxHeapSize--;
-            if (!maxHeap.isEmpty() && num == maxHeap.peek()) {
-                prune(maxHeap);
-            }
+            maxHeapSize++;
         }
-
-        rebalance();
+        prune(minHeap);
+        prune(maxHeap);
     }
 
     // 保持不变量：smallSize == largeSize 或 smallSize == largeSize + 1
@@ -101,8 +113,9 @@ public class LeetCode_480_Sliding_Window_Median {
     }
 
     private double getMedian(int k) {
+        prune(minHeap);
+        prune(maxHeap);
         if ((k & 1) == 1) {
-            // 窗口长度为奇数，small 顶就是中位数
             return (double) minHeap.peek();
         } else {
             // 偶数，两个中间值平均；用 double 相加避免溢出问题
@@ -114,10 +127,10 @@ public class LeetCode_480_Sliding_Window_Median {
     public static void main(String[] args) {
         LeetCode_480_Sliding_Window_Median solution = new LeetCode_480_Sliding_Window_Median();
 
-        int[] nums = new int[]{-2147483648, -2147483648, 2147483647, -2147483648, -2147483648, -2147483648, 2147483647, 2147483647, 2147483647, 2147483647, -2147483648, 2147483647, -2147483648};
-        int k = 3;
+        int[] nums = new int[]{-2147483648, -2147483648, 2147483647, -2147483648, 1, 3, -2147483648, -100, 8, 17, 22, -2147483648, -2147483648, 2147483647, 2147483647, 2147483647, 2147483647, -2147483648, 2147483647, -2147483648};
+        int k = 6;
 
-        double[] expected = new double[]{-2147483648.0, -2147483648.0, -2147483648.0, -2147483648.0, -2147483648.0, 2147483647.0, 2147483647.0, 2147483647.0, 2147483647.0, 2147483647.0, -2147483648.0};
+        double[] expected = new double[]{8.00000, 6.00000, 8.00000, 8.00000, 5.00000};
 
         double[] actual = solution.medianSlidingWindow(nums, k);
         System.out.println("actual  = " + Arrays.toString(actual));
