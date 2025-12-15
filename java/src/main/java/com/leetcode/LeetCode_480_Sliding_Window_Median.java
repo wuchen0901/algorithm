@@ -22,7 +22,7 @@ public class LeetCode_480_Sliding_Window_Median {
             right++;
             // 窗口长度达到 k
             if (right - left == k) {
-                res[left] = getMedian(k);
+                res[left] = getMedian();
                 remove(nums[left]);
                 left++;
             }
@@ -75,14 +75,13 @@ public class LeetCode_480_Sliding_Window_Median {
         }
     }
 
-    private double getMedian(int k) {
+    private double getMedian() {
         prune(minHeap);
         prune(maxHeap);
-        if ((k & 1) == 1) {
-            return (double) minHeap.peek();
-        } else {
-            // 偶数，两个中间值平均；用 double 相加避免溢出问题
+        if (minHeapSize == maxHeapSize) {
             return ((double) minHeap.peek() + (double) maxHeap.peek()) / 2.0;
+        } else {
+            return (double) minHeap.peek();
         }
     }
 
