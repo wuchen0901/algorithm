@@ -67,15 +67,10 @@ public class LeetCode_480_Sliding_Window_Median {
     private void prune(PriorityQueue<Integer> heap) {
         while (!heap.isEmpty()) {
             int num = heap.peek();
-            Integer cnt = delayed.get(num);
-            if (cnt == null || cnt == 0) {
+            if (!delayed.containsKey(num)) {
                 break;
             }
-            if (cnt == 1) {
-                delayed.remove(num);
-            } else {
-                delayed.put(num, cnt - 1);
-            }
+            delayed.compute(num, (k, v) -> v == 1 ? null : v - 1);
             heap.poll();
         }
     }
