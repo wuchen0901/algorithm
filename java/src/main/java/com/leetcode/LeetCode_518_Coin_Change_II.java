@@ -65,4 +65,29 @@ public class LeetCode_518_Coin_Change_II {
 
         return dp[coins.length][amount];
     }
+
+    // 0/1 Knapsack version: each coin can be used at most once
+    public int change01(int amount, int[] coins) {
+        int[][] dp = new int[coins.length + 1][amount + 1];
+
+        // base case
+        for (int i = 0; i <= coins.length; i++) {
+            dp[i][0] = 1;
+        }
+
+        for (int i = 1; i <= coins.length; i++) {
+            int coin = coins[i - 1];
+            for (int j = 1; j <= amount; j++) {
+                // not use current coin
+                dp[i][j] = dp[i - 1][j];
+
+                // use current coin (only once)
+                if (j - coin >= 0) {
+                    dp[i][j] += dp[i - 1][j - coin];
+                }
+            }
+        }
+
+        return dp[coins.length][amount];
+    }
 }
