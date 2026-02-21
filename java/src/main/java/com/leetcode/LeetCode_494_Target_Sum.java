@@ -5,6 +5,46 @@ import java.util.Map;
 
 public class LeetCode_494_Target_Sum {
 
+    public int findTargetSumWays2(int[] nums, int target) {
+        int sum = 0;
+        for (int num : nums) {
+            sum += num;
+        }
+
+        if (sum < Math.abs(target)){
+            return 0;
+        }
+
+        final int offset = sum;
+        final int width = 2 * sum + 1;
+
+        int[][] dp = new int[nums.length + 1][width];
+        dp[0][offset] = 1; // using 0 numbers, only sum=0 is reachable
+
+        for (int i = 1; i <= nums.length; i++) {
+            int num = nums[i - 1];
+            for (int j = 0; j < width; j++) {
+                // j = 0, 1, 2, 3
+
+                // nums = [2, 2]
+                // sum = 4,
+                // 0   1  2  3  4 5 6 7 8
+                // -4 -3 -2 -1  0 1 2 3 4
+                //
+                //              1
+                //        1         1
+                // 1            2       1
+                if (j + num < width) {
+                    dp[i][j] += dp[i - 1][j + num];
+                }
+                if (0 <= j - num) {
+                    dp[i][j] += dp[i - 1][j - num];
+                }
+            }
+        }
+
+        return dp[nums.length][target + offset];
+    }
     public int findTargetSumWays(int[] nums, int target) {
         // Quick infeasible check (optional but can save time/memory)
         int sum = 0;
