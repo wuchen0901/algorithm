@@ -38,6 +38,8 @@
 
 ## 1) Sliding Window (Counting Map)
 
+**对应 LeetCode 题目（链接）：** [3. Longest Substring Without Repeating Characters](https://leetcode.com/problems/longest-substring-without-repeating-characters/), [76. Minimum Window Substring](https://leetcode.com/problems/minimum-window-substring/), [567. Permutation in String](https://leetcode.com/problems/permutation-in-string/), [438. Find All Anagrams in a String](https://leetcode.com/problems/find-all-anagrams-in-a-string/)
+
 **Use for:** longest/shortest substring/ subarray with frequency constraints.
 
 ```java
@@ -71,6 +73,8 @@ Variants:
 
 ## 2) Two Pointers (Sorted Arrays / Strings)
 
+**对应 LeetCode 题目（链接）：** [11. Container With Most Water](https://leetcode.com/problems/container-with-most-water/), [15. 3Sum](https://leetcode.com/problems/3sum/), [26. Remove Duplicates from Sorted Array](https://leetcode.com/problems/remove-duplicates-from-sorted-array/), [283. Move Zeroes](https://leetcode.com/problems/move-zeroes/)
+
 **Use for:** sorted pair sums, dedup, partitioning, merging.
 
 ```java
@@ -94,6 +98,8 @@ int twoSumClosest(int[] a, int target) {
 
 ## 3) Prefix Sum + HashMap (Subarray Problems)
 
+**对应 LeetCode 题目（链接）：** [560. Subarray Sum Equals K](https://leetcode.com/problems/subarray-sum-equals-k/), [525. Contiguous Array](https://leetcode.com/problems/contiguous-array/), [1248. Count Number of Nice Subarrays](https://leetcode.com/problems/count-number-of-nice-subarrays/)
+
 **Use for:** counts/lengths with sum constraints.
 
 ```java
@@ -116,6 +122,8 @@ int subarraySumEqualsK(int[] nums, int k) {
 ---
 
 ## 4) Monotonic Stack / Monotonic Queue
+
+**对应 LeetCode 题目（链接）：** [739. Daily Temperatures](https://leetcode.com/problems/daily-temperatures/), [84. Largest Rectangle in Histogram](https://leetcode.com/problems/largest-rectangle-in-histogram/), [42. Trapping Rain Water](https://leetcode.com/problems/trapping-rain-water/), [239. Sliding Window Maximum](https://leetcode.com/problems/sliding-window-maximum/)
 
 **Next Greater Element / Histogram / Daily Temperatures**
 
@@ -155,6 +163,8 @@ int[] maxWindow(int[] a, int k) {
 
 ## 5) Binary Search (Value Space / Answer)
 
+**对应 LeetCode 题目（链接）：** [875. Koko Eating Bananas](https://leetcode.com/problems/koko-eating-bananas/), [1011. Capacity To Ship Packages Within D Days](https://leetcode.com/problems/capacity-to-ship-packages-within-d-days/), [410. Split Array Largest Sum](https://leetcode.com/problems/split-array-largest-sum/)
+
 **Use for:** minimize x such that `check(x)` true; typical in scheduling, capacity, radius.
 
 ```java
@@ -173,6 +183,8 @@ int bsMinTrue(int lo, int hi) { // [lo, hi] inclusive
 ---
 
 ## 6) Greedy - Intervals
+
+**对应 LeetCode 题目（链接）：** [435. Non-overlapping Intervals](https://leetcode.com/problems/non-overlapping-intervals/), [452. Minimum Number of Arrows to Burst Balloons](https://leetcode.com/problems/minimum-number-of-arrows-to-burst-balloons/), [56. Merge Intervals](https://leetcode.com/problems/merge-intervals/)
 
 **Non-overlapping intervals / min arrows / scheduling**
 
@@ -196,6 +208,8 @@ Greedy by **earliest finish** (classic theorem).
 
 ## 7) Heap / K-Way Merge
 
+**对应 LeetCode 题目（链接）：** [23. Merge k Sorted Lists](https://leetcode.com/problems/merge-k-sorted-lists/), [215. Kth Largest Element in an Array](https://leetcode.com/problems/kth-largest-element-in-an-array/), [347. Top K Frequent Elements](https://leetcode.com/problems/top-k-frequent-elements/), [295. Find Median from Data Stream](https://leetcode.com/problems/find-median-from-data-stream/)
+
 **Use for:** merge k sorted lists/arrays, top-K, streaming median.
 
 ```java
@@ -218,6 +232,8 @@ List<Integer> mergeK(List<int[]> lists) {
 ---
 
 ## 8) Graph BFS/DFS
+
+**对应 LeetCode 题目（链接）：** [200. Number of Islands](https://leetcode.com/problems/number-of-islands/), [994. Rotting Oranges](https://leetcode.com/problems/rotting-oranges/), [127. Word Ladder](https://leetcode.com/problems/word-ladder/), [207. Course Schedule](https://leetcode.com/problems/course-schedule/)
 
 **Grid BFS (shortest path in unweighted graphs)**
 
@@ -281,6 +297,8 @@ int[] dijkstra(List<int[]>[] g, int s) { // g[u]: {v,w}
 
 ## 9) Union-Find (DSU)
 
+**对应 LeetCode 题目（链接）：** [547. Number of Provinces](https://leetcode.com/problems/number-of-provinces/), [684. Redundant Connection](https://leetcode.com/problems/redundant-connection/), [721. Accounts Merge](https://leetcode.com/problems/accounts-merge/)
+
 **Use for:** connectivity, components, Kruskal MST, islands.
 
 ```java
@@ -317,6 +335,8 @@ class DSU {
 
 ## 10) Topological Sort (Kahn)
 
+**对应 LeetCode 题目（链接）：** [210. Course Schedule II](https://leetcode.com/problems/course-schedule-ii/), [269. Alien Dictionary](https://leetcode.com/problems/alien-dictionary/), [207. Course Schedule](https://leetcode.com/problems/course-schedule/)
+
 **Use for:** DAG order, course schedule.
 
 ```java
@@ -339,7 +359,11 @@ List<Integer> topo(int n, List<Integer>[] g) {
 
 ## 11) Dynamic Programming Core Templates
 
+**对应 LeetCode 题目（链接）：** [416. Partition Equal Subset Sum](https://leetcode.com/problems/partition-equal-subset-sum/), [518. Coin Change II](https://leetcode.com/problems/coin-change-ii/), [474. Ones and Zeroes](https://leetcode.com/problems/ones-and-zeroes/), [72. Edit Distance](https://leetcode.com/problems/edit-distance/)
+
 ### 11.1 0/1 Knapsack (maximize value, capacity W)
+
+**对应 LeetCode 题目（链接）：** [416. Partition Equal Subset Sum](https://leetcode.com/problems/partition-equal-subset-sum/), [494. Target Sum](https://leetcode.com/problems/target-sum/), [474. Ones and Zeroes](https://leetcode.com/problems/ones-and-zeroes/)
 
 ```java
 int knap01(int[] wt, int[] val, int W) {
@@ -352,6 +376,8 @@ int knap01(int[] wt, int[] val, int W) {
 
 ### 11.2 Unbounded Knapsack (complete)
 
+**对应 LeetCode 题目（链接）：** [322. Coin Change](https://leetcode.com/problems/coin-change/), [518. Coin Change II](https://leetcode.com/problems/coin-change-ii/), [279. Perfect Squares](https://leetcode.com/problems/perfect-squares/)
+
 ```java
 int unbounded(int[] wt, int[] val, int W) {
     int n = wt.length;
@@ -362,6 +388,8 @@ int unbounded(int[] wt, int[] val, int W) {
 ```
 
 ### 11.3 Coin Change - Min Coins
+
+**对应 LeetCode 题目（链接）：** [322. Coin Change](https://leetcode.com/problems/coin-change/)
 
 ```java
 int coinMin(int[] coins, int amt) {
@@ -376,6 +404,8 @@ int coinMin(int[] coins, int amt) {
 
 ### 11.4 Coin Change - Count Ways (Order-insensitive)
 
+**对应 LeetCode 题目（链接）：** [518. Coin Change II](https://leetcode.com/problems/coin-change-ii/)
+
 ```java
 long coinCount(int[] coins, int amt) {
     long[] dp = new long[amt + 1];
@@ -386,6 +416,8 @@ long coinCount(int[] coins, int amt) {
 ```
 
 ### 11.5 LIS (O(n log n)) - Patience
+
+**对应 LeetCode 题目（链接）：** [300. Longest Increasing Subsequence](https://leetcode.com/problems/longest-increasing-subsequence/), [354. Russian Doll Envelopes](https://leetcode.com/problems/russian-doll-envelopes/)
 
 ```java
 int lis(int[] a) {
@@ -402,6 +434,8 @@ int lis(int[] a) {
 ```
 
 ### 11.6 Edit Distance
+
+**对应 LeetCode 题目（链接）：** [72. Edit Distance](https://leetcode.com/problems/edit-distance/), [583. Delete Operation for Two Strings](https://leetcode.com/problems/delete-operation-for-two-strings/)
 
 ```java
 int edit(String a, String b) {
@@ -421,7 +455,11 @@ int edit(String a, String b) {
 
 ## 12) String Algorithms
 
+**对应 LeetCode 题目（链接）：** [28. Find the Index of the First Occurrence in a String](https://leetcode.com/problems/find-the-index-of-the-first-occurrence-in-a-string/), [459. Repeated Substring Pattern](https://leetcode.com/problems/repeated-substring-pattern/)
+
 ### 12.1 KMP (Prefix Function)
+
+**对应 LeetCode 题目（链接）：** [28. Find the Index of the First Occurrence in a String](https://leetcode.com/problems/find-the-index-of-the-first-occurrence-in-a-string/), [459. Repeated Substring Pattern](https://leetcode.com/problems/repeated-substring-pattern/)
 
 ```java
 int[] lps(char[] p) {
@@ -453,11 +491,15 @@ boolean kmp(String s, String pat) {
 
 ### 12.2 Z-Function (optional)
 
+**对应 LeetCode 题目（链接）：** [2223. Sum of Scores of Built Strings](https://leetcode.com/problems/sum-of-scores-of-built-strings/)（可用 Z-Function）
+
 * Useful for pattern matching and string periodicity; similar role to KMP.
 
 ---
 
 ## 13) Tree Recursion Template
+
+**对应 LeetCode 题目（链接）：** [543. Diameter of Binary Tree](https://leetcode.com/problems/diameter-of-binary-tree/), [124. Binary Tree Maximum Path Sum](https://leetcode.com/problems/binary-tree-maximum-path-sum/), [236. Lowest Common Ancestor of a Binary Tree](https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-tree/)
 
 **Post-order combine children then return info to parent**
 
@@ -482,6 +524,8 @@ Common tasks: diameter, BST check, path sum, LCA (with parent returns), etc.
 
 ## 14) Bitmask DP (TSP-like, small N)
 
+**对应 LeetCode 题目（链接）：** [847. Shortest Path Visiting All Nodes](https://leetcode.com/problems/shortest-path-visiting-all-nodes/), [1125. Smallest Sufficient Team](https://leetcode.com/problems/smallest-sufficient-team/)
+
 ```java
 int tsp(int[][] w) {
     int n = w.length, N = 1 << n, INF = 1_000_000_000;
@@ -503,6 +547,8 @@ int tsp(int[][] w) {
 ---
 
 ## 15) Sweep Line (Events)
+
+**对应 LeetCode 题目（链接）：** [253. Meeting Rooms II](https://leetcode.com/problems/meeting-rooms-ii/), [218. The Skyline Problem](https://leetcode.com/problems/the-skyline-problem/), [732. My Calendar III](https://leetcode.com/problems/my-calendar-iii/)
 
 **Use for:** meeting rooms, max overlap, skyline.
 
