@@ -361,9 +361,25 @@ List<Integer> topo(int n, List<Integer>[] g) {
 
 **对应 LeetCode 题目（链接）：** [416. Partition Equal Subset Sum](https://leetcode.com/problems/partition-equal-subset-sum/), [518. Coin Change II](https://leetcode.com/problems/coin-change-ii/), [474. Ones and Zeroes](https://leetcode.com/problems/ones-and-zeroes/), [72. Edit Distance](https://leetcode.com/problems/edit-distance/)
 
+| 题型                  | 题目                                                                           | 硬币能否无限取 | 目标   | 重复面额 |
+|---------------------|------------------------------------------------------------------------------|---------|------|------|
+| 0/1 Knapsack        | 用[2,1,6,8,5]这些硬币有几种方法可以凑出8元？                                                 | 否       | 方案数  | 否    |   
+| Unbounded Knapsack  | 用[2,1,6,8,5]这些硬币有几种方法可以凑出8元？                                                 | 否       | 方案数  | 否    |   
+| Unbounded Knapsack  | [322. Coin Change](https://leetcode.com/problems/coin-change/)               | 是       | 最少硬币 | 否    |
+| 0/1 Knapsack        | [322. Coin Change + 硬币不能重复使用的限制](https://leetcode.com/problems/coin-change/) | 否       | 最少硬币 | 否    |
+| Unbounded Knapsack  | 用[2,1,5]三种面值有几种方法可以凑出5元？                                                     | 是       | 方案数  | 否    |    
+| 0/1 Knapsack        | 用[2,1,2,1,5,1]这些硬币有几种方法可以凑出5元？                                               | 是       | 方案数  | 是    |  
+
 ### 11.1 0/1 Knapsack (maximize value, capacity W)
 
-**对应 LeetCode 题目（链接）：** [416. Partition Equal Subset Sum](https://leetcode.com/problems/partition-equal-subset-sum/), [494. Target Sum](https://leetcode.com/problems/target-sum/), [474. Ones and Zeroes](https://leetcode.com/problems/ones-and-zeroes/)
+**对应 LeetCode 题目（链接）：** 
+* [416. Partition Equal Subset Sum](https://leetcode.com/problems/partition-equal-subset-sum/)
+这道题类似于[ 1, 2, 3, 6, 7, 8] 每种硬币就一个，有几种方法能凑出7? 0/1 knapsack counting problem
+
+    dp[0][0] = 1;
+* [494. Target Sum](https://leetcode.com/problems/target-sum/)
+这道题和 416 几乎是一样的
+* [474. Ones and Zeroes](https://leetcode.com/problems/ones-and-zeroes/)
 
 ```java
 int knap01(int[] wt, int[] val, int W) {
@@ -376,7 +392,10 @@ int knap01(int[] wt, int[] val, int W) {
 
 ### 11.2 Unbounded Knapsack (complete)
 
-**对应 LeetCode 题目（链接）：** [322. Coin Change](https://leetcode.com/problems/coin-change/), [518. Coin Change II](https://leetcode.com/problems/coin-change-ii/), [279. Perfect Squares](https://leetcode.com/problems/perfect-squares/)
+**对应 LeetCode 题目（链接）：** 
+* [322. Coin Change](https://leetcode.com/problems/coin-change/) 无限硬币，最少硬币数量。最小值版本。完全背包（Unbounded Knapsack）的最小值版本标准解法就是动态规划（DP）
+* [518. Coin Change II](https://leetcode.com/problems/coin-change-ii/) unbounded knapsack counting problem. 无限硬币，凑出某个值的方案数
+* [279. Perfect Squares](https://leetcode.com/problems/perfect-squares/)
 
 ```java
 int unbounded(int[] wt, int[] val, int W) {
@@ -388,6 +407,7 @@ int unbounded(int[] wt, int[] val, int W) {
 ```
 
 ### 11.3 Coin Change - Min Coins
+#### 11.3.1 Unbounded knapsack
 
 **对应 LeetCode 题目（链接）：** [322. Coin Change](https://leetcode.com/problems/coin-change/)
 
@@ -401,6 +421,33 @@ int coinMin(int[] coins, int amt) {
     return dp[amt] >= INF ? -1 : dp[amt];
 }
 ```
+#### 11.3.2 0/1 knapsack
+[322. Coin Change](https://leetcode.com/problems/coin-change/) 每种硬币只能用一次的时候
+```java
+// 0/1 knapsack 硬币数量有限
+public int coinChange01(int[] coins, int amount) {
+    int[][] dp = new int[coins.length + 1][amount + 1];
+
+    int inf = amount + 1;
+
+    for (int j = 1; j < amount + 1; j++) {
+        dp[0][j] = inf;
+    }
+
+    for (int i = 1; i < coins.length + 1; i++) {
+        int coin  = coins[i - 1];
+        for (int j = 1; j < amount + 1; j++) {
+            if (0 <= j - coin) {
+                dp[i][j] = Math.min(dp[i - 1][j], dp[i - 1][j - coin] + 1);
+            } else {
+                dp[i][j] = dp[i - 1][j];
+            }
+        }
+    }
+
+    return dp[coins.length][amount] < inf ? dp[coins.length][amount] : -1;
+}
+```
 
 ### 11.4 Coin Change - Count Ways (Order-insensitive)
 
@@ -412,6 +459,60 @@ long coinCount(int[] coins, int amt) {
     dp[0] = 1;
     for (int c : coins) for (int a = c; a <= amt; a++) dp[a] += dp[a - c];
     return dp[amt];
+}
+```
+
+#### 11.4.1 2D DP Template (Unbounded Knapsack, count ways)
+
+适用题型：`coins = [2,1,6,8,5]`，问“凑出 `8` 元有几种方法”（组合数，不计顺序）。
+
+```java
+int coinCount2D(int[] coins, int amount) {
+    int[][] dp = new int[coins.length + 1][amount + 1];
+
+    // 凑出 0 元只有 1 种方法：什么都不选
+    for (int i = 0; i <= coins.length; i++) {
+        dp[i][0] = 1;
+    }
+
+    for (int i = 1; i <= coins.length; i++) {
+        int coin = coins[i - 1];
+        for (int j = 1; j <= amount; j++) {
+            dp[i][j] = dp[i - 1][j];              // 不用当前硬币
+            if (j - coin >= 0) {
+                dp[i][j] += dp[i][j - coin];      // 用当前硬币（可重复使用）
+            }
+        }
+    }
+
+    return dp[coins.length][amount];
+}
+```
+
+#### 11.4.2 2D DP Template (0/1 Knapsack, count ways)
+
+适用题型：`coins = [2,1,6,8,5]`，问“凑出 `8` 元有几种方法”，且每个硬币只能用一次（组合数，不计顺序）。
+
+```java
+int coinCount01(int[] coins, int amount) {
+    int[][] dp = new int[coins.length + 1][amount + 1];
+
+    // 凑出 0 元只有 1 种方法：什么都不选
+    for (int i = 0; i <= coins.length; i++) {
+        dp[i][0] = 1;
+    }
+
+    for (int i = 1; i <= coins.length; i++) {
+        int coin = coins[i - 1];
+        for (int j = 1; j <= amount; j++) {
+            dp[i][j] = dp[i - 1][j];                // 不用当前硬币
+            if (j - coin >= 0) {
+                dp[i][j] += dp[i - 1][j - coin];    // 用当前硬币（只能用一次）
+            }
+        }
+    }
+
+    return dp[coins.length][amount];
 }
 ```
 
