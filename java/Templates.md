@@ -363,12 +363,12 @@ List<Integer> topo(int n, List<Integer>[] g) {
 
 | 题型                  | 题目                                                                           | 硬币能否无限取 | 目标   | 重复面额 |
 |---------------------|------------------------------------------------------------------------------|---------|------|------|
-| 0/1 Knapsack        | 用[2,1,6,8,5]这些硬币有几种方法可以凑出8元？                                                 | 否       | 方案数  | 否    |   
-| Unbounded Knapsack  | 用[2,1,6,8,5]这些硬币有几种方法可以凑出8元？                                                 | 否       | 方案数  | 否    |   
-| Unbounded Knapsack  | [322. Coin Change](https://leetcode.com/problems/coin-change/)               | 是       | 最少硬币 | 否    |
-| 0/1 Knapsack        | [322. Coin Change + 硬币不能重复使用的限制](https://leetcode.com/problems/coin-change/) | 否       | 最少硬币 | 否    |
-| Unbounded Knapsack  | [518. Coin Change II](https://leetcode.com/problems/coin-change-ii/) ([见 11.4](#114-coin-change---count-ways-order-insensitive)) | 是       | 方案数  | 否    |    
-| 0/1 Knapsack        | 用[2,1,2,1,5,1]这些硬币有几种方法可以凑出5元？                                               | 是       | 方案数  | 是    |  
+| 0/1 Knapsack        | [用[2,1,6,8,5]这些硬币有几种方法可以凑出8元？（见 11.4.2）](#1142-2d-dp-template-01-knapsack-count-ways) | 否       | 方案数  | 否    |   
+| Unbounded Knapsack  | [用[2,1,6,8,5]这些硬币有几种方法可以凑出8元？（见 11.4.1）](#1141-2d-dp-template-unbounded-knapsack-count-ways) | 否       | 方案数  | 否    |   
+| Unbounded Knapsack  | [322. Coin Change（见 11.3.1）](#1131-unbounded-knapsack)                    | 是       | 最少硬币 | 否    |
+| 0/1 Knapsack        | [322. Coin Change + 硬币不能重复使用的限制（见 11.3.2）](#1132-01-knapsack)      | 否       | 最少硬币 | 否    |
+| Unbounded Knapsack  | [518. Coin Change II（见 11.4）](#114-coin-change---count-ways-order-insensitive) | 是       | 方案数  | 否    |    
+| 0/1 Knapsack        | [用[2,1,2,1,5,1]这些硬币有几种方法可以凑出5元？（见 11.4.2）](#1142-2d-dp-template-01-knapsack-count-ways) | 是       | 方案数  | 是    |  
 
 ### 11.1 0/1 Knapsack (maximize value, capacity W)
 
