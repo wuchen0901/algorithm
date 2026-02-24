@@ -412,20 +412,7 @@ int unbounded(int[] wt, int[] val, int W) {
 **对应 LeetCode 题目（链接）：** [322. Coin Change](https://leetcode.com/problems/coin-change/)
 
 ```java
-int coinMin(int[] coins, int amt) {
-    int INF = 1_000_000_000;
-    int[] dp = new int[amt + 1];
-    Arrays.fill(dp, INF);
-    dp[0] = 0;
-    for (int c : coins) for (int a = c; a <= amt; a++) dp[a] = Math.min(dp[a], dp[a - c] + 1);
-    return dp[amt] >= INF ? -1 : dp[amt];
-}
-```
-#### 11.3.2 0/1 knapsack
-[322. Coin Change](https://leetcode.com/problems/coin-change/) 每种硬币只能用一次的时候
-```java
-// 0/1 knapsack 硬币数量有限
-public int coinChange01(int[] coins, int amount) {
+public int coinChange(int[] coins, int amount) {
     int[][] dp = new int[coins.length + 1][amount + 1];
 
     int inf = amount + 1;
@@ -438,6 +425,35 @@ public int coinChange01(int[] coins, int amount) {
         int coin  = coins[i - 1];
         for (int j = 1; j < amount + 1; j++) {
             if (0 <= j - coin) {
+                // 从 “不用当前 coin：凑成 j 的最少硬币数” 和 “用当前 coin（可重复使用）：凑成 j - coin 的最少硬币数 + 1” 两种方案中取最小值。
+                dp[i][j] = Math.min(dp[i - 1][j], dp[i][j - coin] + 1);
+            } else {
+                dp[i][j] = dp[i - 1][j];
+            }
+        }
+    }
+
+    return dp[coins.length][amount] < inf ? dp[coins.length][amount] : -1;
+}
+```
+#### 11.3.2 0/1 knapsack
+[322. Coin Change](https://leetcode.com/problems/coin-change/) 每种硬币只能用一次的时候
+```java
+// 0/1 knapsack 硬币数量有限
+public int coinChange(int[] coins, int amount) {
+    int[][] dp = new int[coins.length + 1][amount + 1];
+
+    int inf = amount + 1;
+
+    for (int j = 1; j < amount + 1; j++) {
+        dp[0][j] = inf;
+    }
+
+    for (int i = 1; i < coins.length + 1; i++) {
+        int coin  = coins[i - 1];
+        for (int j = 1; j < amount + 1; j++) {
+            if (0 <= j - coin) {
+                // 从 “不用当前 coin：凑成 j 的最少硬币数” 和 “用当前 coin 一次：凑成 j - coin 的最少硬币数 + 1” 两种方案中取最小值。
                 dp[i][j] = Math.min(dp[i - 1][j], dp[i - 1][j - coin] + 1);
             } else {
                 dp[i][j] = dp[i - 1][j];
