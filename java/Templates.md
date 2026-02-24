@@ -367,7 +367,7 @@ List<Integer> topo(int n, List<Integer>[] g) {
 | Unbounded Knapsack  | 用[2,1,6,8,5]这些硬币有几种方法可以凑出8元？                                                 | 否       | 方案数  | 否    |   
 | Unbounded Knapsack  | [322. Coin Change](https://leetcode.com/problems/coin-change/)               | 是       | 最少硬币 | 否    |
 | 0/1 Knapsack        | [322. Coin Change + 硬币不能重复使用的限制](https://leetcode.com/problems/coin-change/) | 否       | 最少硬币 | 否    |
-| Unbounded Knapsack  | 用[2,1,5]三种面值有几种方法可以凑出5元？                                                     | 是       | 方案数  | 否    |    
+| Unbounded Knapsack  | [518. Coin Change II](https://leetcode.com/problems/coin-change-ii/) ([见 11.4](#114-coin-change---count-ways-order-insensitive)) | 是       | 方案数  | 否    |    
 | 0/1 Knapsack        | 用[2,1,2,1,5,1]这些硬币有几种方法可以凑出5元？                                               | 是       | 方案数  | 是    |  
 
 ### 11.1 0/1 Knapsack (maximize value, capacity W)
@@ -467,14 +467,30 @@ public int coinChange(int[] coins, int amount) {
 
 ### 11.4 Coin Change - Count Ways (Order-insensitive)
 
-**对应 LeetCode 题目（链接）：** [518. Coin Change II](https://leetcode.com/problems/coin-change-ii/)
+[518. Coin Change II](https://leetcode.com/problems/coin-change-ii/)
+
+题型：`Unbounded Knapsack`（完全背包，组合数 / 不计顺序）
 
 ```java
-long coinCount(int[] coins, int amt) {
-    long[] dp = new long[amt + 1];
-    dp[0] = 1;
-    for (int c : coins) for (int a = c; a <= amt; a++) dp[a] += dp[a - c];
-    return dp[amt];
+public int change(int amount, int[] coins) {
+    int[][] dp = new int[coins.length + 1][amount + 1];
+
+    for (int i = 0; i < coins.length + 1; i++) {
+        dp[i][0] = 1;
+    }
+
+    for (int i = 1; i < coins.length + 1; i++) {
+        int coin = coins[i - 1];
+        for (int j = 1; j < amount + 1; j++) {
+            if (0 <= j - coin) {
+                dp[i][j] = dp[i - 1][j] + dp[i][j - coin];
+            } else {
+                dp[i][j] = dp[i - 1][j];
+            }
+        }
+    }
+
+    return dp[coins.length][amount];
 }
 ```
 
