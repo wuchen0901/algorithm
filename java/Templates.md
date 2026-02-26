@@ -375,9 +375,9 @@ List<Integer> topo(int n, List<Integer>[] g) {
 |------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|---------------------------|------|
 | `int coinCount01(int[] coins, int amount)` | [Given coins [2,1,6,8,5], how many ways are there to make up a total of 8? (each coin can be used at most once; combinations, order does not matter; see 11.4.2)](#1142-2d-dp-template-01-knapsack-count-ways) | 否       | count ways / combinations | 否（若输入有重复面额，需先定义按“硬币实例”还是按“面额”计数） |
 | `int coinCountUnbounded(int[] coins, int amount)` | [Given coins [2,1,6,8,5], how many ways are there to make up a total of 8? (coins can be reused; combinations, order does not matter; see 11.4.1)](#1141-2d-dp-template-unbounded-knapsack-count-ways)         | 是       | count ways / combinations | 否    |
+| `int coinCountUnboundedPermutations(int[] coins, int amount)` | [Given coins [1,2,5], how many ordered sequences are there to make up a total of 5? (coins can be reused; order matters; see 11.4.3)](#1143-1d-dp-template-unbounded-knapsack-count-ways-order-sensitive--permutations) | 是       | count ways / permutations | 否    |
 | `int coinChangeUnboundedMin(int[] coins, int amount)` | [322. Coin Change（见 11.3.1）](#1131-unbounded-knapsack)                                                                                                                                                         | 是       | min coins                  | 否    |
 | `int coinChange01Min(int[] coins, int amount)` | [322. Coin Change + 硬币不能重复使用的限制（见 11.3.2）](#1132-01-knapsack)                                                                                                                                                  | 否       | min coins                  | 否    |
-| `int change(int amount, int[] coins)` / `int coinCountUnbounded(int[] coins, int amount)` | [518. Coin Change II（见 11.4）](#114-coin-change---count-ways-order-insensitive)                                                                                                                                 | 是       | count ways / combinations | 否    |    
 
 ### 11.1 0/1 Knapsack (maximize value, capacity W)
 
@@ -488,6 +488,10 @@ public int coinChange01Min(int[] coins, int amount) {
 
 题型：`Unbounded Knapsack`（完全背包，组合数 / 不计顺序）
 
+关键区别（组合数 vs 排列数）：
+* **组合数（order-insensitive）**：先枚举 `coin`，再枚举 `amount`
+* **排列数（order-sensitive）**：先枚举 `amount`，再枚举 `coin`
+
 ```java
 public int change(int amount, int[] coins) {
     int[][] dp = new int[coins.length + 1][amount + 1];
@@ -562,6 +566,28 @@ int coinCount01(int[] coins, int amount) {
     }
 
     return dp[coins.length][amount];
+}
+```
+
+#### 11.4.3 1D DP Template (Unbounded Knapsack, count ways, order-sensitive / permutations)
+
+适用题型：`coins = [1,2,5]`，问“有多少种序列可以凑出总和为 `5`？”（硬币可重复使用；排列数，计顺序）。
+
+```java
+int coinCountUnboundedPermutations(int[] coins, int amount) {
+    int[] dp = new int[amount + 1];
+    dp[0] = 1;
+
+    // 先枚举 amount，再枚举 coin：统计的是排列数（顺序敏感）
+    for (int j = 1; j <= amount; j++) {
+        for (int coin : coins) {
+            if (j - coin >= 0) {
+                dp[j] += dp[j - coin];
+            }
+        }
+    }
+
+    return dp[amount];
 }
 ```
 
