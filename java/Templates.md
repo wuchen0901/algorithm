@@ -371,13 +371,13 @@ List<Integer> topo(int n, List<Integer>[] g) {
 **对应 LeetCode 题目（链接）：
 ** [416. Partition Equal Subset Sum](https://leetcode.com/problems/partition-equal-subset-sum/), [518. Coin Change II](https://leetcode.com/problems/coin-change-ii/), [474. Ones and Zeroes](https://leetcode.com/problems/ones-and-zeroes/), [72. Edit Distance](https://leetcode.com/problems/edit-distance/)
 
-| 题型                 | 题目                                                                                                                                                                                                             | 硬币能否无限取 | 目标                        | 重复面额 |
-|--------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|---------------------------|------|
-| 0/1 Knapsack       | [Given coins [2,1,6,8,5], how many ways are there to make up a total of 8? (each coin can be used at most once; combinations, order does not matter; see 11.4.2)](#1142-2d-dp-template-01-knapsack-count-ways) | 否       | count ways / combinations | 否（若输入有重复面额，需先定义按“硬币实例”还是按“面额”计数） |   
-| Unbounded Knapsack | [Given coins [2,1,6,8,5], how many ways are there to make up a total of 8? (coins can be reused; combinations, order does not matter; see 11.4.1)](#1141-2d-dp-template-unbounded-knapsack-count-ways)         | 是       | 方案数                       | 否    |   
-| Unbounded Knapsack | [322. Coin Change（见 11.3.1）](#1131-unbounded-knapsack)                                                                                                                                                         | 是       | 最少硬币                      | 否    |
-| 0/1 Knapsack       | [322. Coin Change + 硬币不能重复使用的限制（见 11.3.2）](#1132-01-knapsack)                                                                                                                                                  | 否       | 最少硬币                      | 否    |
-| Unbounded Knapsack | [518. Coin Change II（见 11.4）](#114-coin-change---count-ways-order-insensitive)                                                                                                                                 | 是       | 方案数                       | 否    |    
+| 模板函数声明 | 题目                                                                                                                                                                                                             | 硬币能否无限取 | 目标                        | 重复面额 |
+|------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|---------------------------|------|
+| `int coinCount01(int[] coins, int amount)` | [Given coins [2,1,6,8,5], how many ways are there to make up a total of 8? (each coin can be used at most once; combinations, order does not matter; see 11.4.2)](#1142-2d-dp-template-01-knapsack-count-ways) | 否       | count ways / combinations | 否（若输入有重复面额，需先定义按“硬币实例”还是按“面额”计数） |
+| `int coinCountUnbounded(int[] coins, int amount)` | [Given coins [2,1,6,8,5], how many ways are there to make up a total of 8? (coins can be reused; combinations, order does not matter; see 11.4.1)](#1141-2d-dp-template-unbounded-knapsack-count-ways)         | 是       | count ways / combinations | 否    |
+| `int coinChangeUnboundedMin(int[] coins, int amount)` | [322. Coin Change（见 11.3.1）](#1131-unbounded-knapsack)                                                                                                                                                         | 是       | min coins                  | 否    |
+| `int coinChange01Min(int[] coins, int amount)` | [322. Coin Change + 硬币不能重复使用的限制（见 11.3.2）](#1132-01-knapsack)                                                                                                                                                  | 否       | min coins                  | 否    |
+| `int change(int amount, int[] coins)` / `int coinCountUnbounded(int[] coins, int amount)` | [518. Coin Change II（见 11.4）](#114-coin-change---count-ways-order-insensitive)                                                                                                                                 | 是       | count ways / combinations | 否    |    
 
 ### 11.1 0/1 Knapsack (maximize value, capacity W)
 
@@ -426,7 +426,7 @@ int unbounded(int[] wt, int[] val, int W) {
 **对应 LeetCode 题目（链接）：** [322. Coin Change](https://leetcode.com/problems/coin-change/)
 
 ```java
-public int coinChange(int[] coins, int amount) {
+public int coinChangeUnboundedMin(int[] coins, int amount) {
     int[][] dp = new int[coins.length + 1][amount + 1];
 
     int inf = amount + 1;
@@ -457,7 +457,7 @@ public int coinChange(int[] coins, int amount) {
 
 ```java
 // 0/1 knapsack 硬币数量有限
-public int coinChange(int[] coins, int amount) {
+public int coinChange01Min(int[] coins, int amount) {
     int[][] dp = new int[coins.length + 1][amount + 1];
 
     int inf = amount + 1;
@@ -516,7 +516,7 @@ public int change(int amount, int[] coins) {
 适用题型：`coins = [2,1,6,8,5]`，问“有多少种方法可以凑出总和为 `8`？”（硬币可重复使用；组合数，不计顺序）。
 
 ```java
-int coinCount2D(int[] coins, int amount) {
+int coinCountUnbounded(int[] coins, int amount) {
     int[][] dp = new int[coins.length + 1][amount + 1];
 
     // 凑出 0 元只有 1 种方法：什么都不选
