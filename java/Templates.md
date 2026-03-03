@@ -377,7 +377,11 @@ List<Integer> topo(int n, List<Integer>[] g) {
 | `int coinCountUnbounded(int[] coins, int amount)` | [Given coins [2,1,6,8,5], how many ways are there to make up a total of 8? (coins can be reused; combinations, order does not matter; see 11.4.1)](#1141-2d-dp-template-unbounded-knapsack-count-ways)         | 是       | count ways / combinations | 否    |
 | `int coinCountUnboundedPermutations(int[] coins, int amount)` | [377. Combination Sum IV](#1143-1d-dp-template-unbounded-knapsack-count-ways-order-sensitive--permutations) | 是       | count ways / permutations | 否    |
 | `int coinChangeUnboundedMin(int[] coins, int amount)` | [322. Coin Change](#1131-unbounded-knapsack)                                                                                                                                                         | 是       | min coins                  | 否    |
-| `int coinChange01Min(int[] coins, int amount)` | [322. Coin Change + 硬币不能重复使用的限制（见 11.3.2）](#1132-01-knapsack)                                                                                                                                                  | 否       | min coins                  | 否    |
+| `int coinChange01Min(int[] coins, int amount)` | [322. Coin Change + 硬币不能重复使用的限制](#1132-01-knapsack)                                                                                                                                                  | 否       | min coins                  | 否    |
+| `boolean canMakeUnbounded(int[] coins, int amount)` | [Coin Change Feasibility](#1144-feasibility-can-make-amount-01--unbounded) | 是       | feasibility / can make | 否 |
+| `boolean canMake01(int[] coins, int amount)` | [Subset/0-1 Feasibility](#1144-feasibility-can-make-amount-01--unbounded) | 否       | feasibility / can make | 否 |
+| `int coinCountBounded(int[] coins, int[] limit, int amount)` | [Bounded Knapsack Count Ways](#1145-bounded-knapsack-count-ways-each-coin-has-a-limit) | 否（有上限） | count ways / combinations | 否 |
+| `int coinCountUnboundedExactK(int[] coins, int amount, int k)` | [Count Ways with Exactly K Coins](#1146-count-ways-with-exactly-k-coins-unbounded-combinations) | 是 | count ways with exactly k coins | 否 |
 
 ### 11.1 0/1 Knapsack (maximize value, capacity W)
 
@@ -588,6 +592,83 @@ int coinCountUnboundedPermutations(int[] coins, int amount) {
     }
 
     return dp[amount];
+}
+```
+
+#### 11.4.4 Feasibility (can make amount, 0/1 + unbounded)
+
+适用题型：只问“能不能凑出 amount”，不关心方案数/最小值。
+
+```java
+boolean canMakeUnbounded(int[] coins, int amount) {
+    boolean[] dp = new boolean[amount + 1];
+    dp[0] = true;
+
+    // 完全背包：每种 coin 可重复使用
+    for (int coin : coins) {
+        for (int j = coin; j <= amount; j++) {
+            dp[j] |= dp[j - coin];
+        }
+    }
+    return dp[amount];
+}
+
+boolean canMake01(int[] coins, int amount) {
+    boolean[] dp = new boolean[amount + 1];
+    dp[0] = true;
+
+    // 0/1 背包：每种 coin 只能用一次（倒序）
+    for (int coin : coins) {
+        for (int j = amount; j >= coin; j--) {
+            dp[j] |= dp[j - coin];
+        }
+    }
+    return dp[amount];
+}
+```
+
+#### 11.4.5 Bounded Knapsack (count ways, each coin has a limit)
+
+适用题型：每种硬币最多可使用 `limit[i]` 次，问组合数（不计顺序）。
+
+```java
+int coinCountBounded(int[] coins, int[] limit, int amount) {
+    int n = coins.length;
+    int[][] dp = new int[n + 1][amount + 1];
+    dp[0][0] = 1;
+
+    for (int i = 1; i <= n; i++) {
+        int coin = coins[i - 1];
+        int cap = limit[i - 1];
+        for (int j = 0; j <= amount; j++) {
+            dp[i][j] = dp[i - 1][j]; // 不用当前 coin
+            for (int k = 1; k <= cap && j - k * coin >= 0; k++) {
+                dp[i][j] += dp[i - 1][j - k * coin];
+            }
+        }
+    }
+    return dp[n][amount];
+}
+```
+
+#### 11.4.6 Count Ways with Exactly K Coins (unbounded, combinations)
+
+适用题型：硬币可重复，问“恰好用 `k` 枚硬币凑出 `amount`”的组合数（不计顺序）。
+
+```java
+int coinCountUnboundedExactK(int[] coins, int amount, int k) {
+    int[][] dp = new int[k + 1][amount + 1];
+    dp[0][0] = 1;
+
+    // 先 coin 后 amount：组合数
+    for (int coin : coins) {
+        for (int j = coin; j <= amount; j++) {
+            for (int c = 1; c <= k; c++) {
+                dp[c][j] += dp[c - 1][j - coin];
+            }
+        }
+    }
+    return dp[k][amount];
 }
 ```
 
