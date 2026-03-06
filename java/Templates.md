@@ -657,6 +657,27 @@ int coinCountBounded(int[] coins, int[] limit, int amount) {
 
 ```java
 int coinCountUnboundedExactK(int[] coins, int amount, int k) {
+    int[][][] dp = new int[coins.length + 1][amount + 1][k + 1];
+
+    for (int i = 0; i < coins.length + 1; i++) {
+        dp[i][0][0] = 1;
+    }
+
+    for (int i = 1; i < coins.length + 1; i++) {
+        int coin = coins[i - 1];
+        for (int j = 1; j < amount + 1; j++) {
+            for (int c = 1; c < k + 1; c++) {
+                dp[i][j][c] = dp[i - 1][j][c];
+                if (0 <= j - coin) {
+                    dp[i][j][c] += dp[i][j - coin][c - 1];
+                }
+            }
+        }
+    }
+    return dp[coins.length][amount][k];
+}
+
+int coinCountUnboundedExactK(int[] coins, int amount, int k) {
     int[][] dp = new int[k + 1][amount + 1];
     dp[0][0] = 1;
 
