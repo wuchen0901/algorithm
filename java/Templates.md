@@ -7,23 +7,23 @@
 
 ## Templates Overview
 
-| Category                              | Template                      | Priority | Frequent Problems    |
-|---------------------------------------|-------------------------------|----------|----------------------|
-| 🧩 1. Sliding Window (Map)            | expand + shrink               | ⭐⭐⭐⭐     | 3, 76, 567, 438, 209 |
-| 🪞 2. Two Pointers (Opposing)         | sum / diff / dedupe           | ⭐⭐⭐⭐     | 11, 15, 26, 283      |
-| 🧮 3. Prefix Sum + HashMap            | sum = k / parity / balance    | ⭐⭐⭐⭐     | 560, 525, 1248       |
-| 🔁 4. Binary Search on Answer         | check(mid) monotonic          | ⭐⭐⭐⭐     | 875, 1011, 410       |
-| 🧱 5. Monotonic Stack / Queue         | next greater / histogram      | ⭐⭐⭐⭐     | 739, 84, 42          |
-| 🪜 6. Heap / Priority Queue           | top-K / merge / median        | ⭐⭐⭐⭐     | 23, 215, 347         |
-| 🧭 7. Greedy (Intervals)              | sort by end / start           | ⭐⭐⭐      | 435, 452, 56         |
-| 🌉 8. BFS / DFS                       | graph search / islands / maze | ⭐⭐⭐⭐     | 200, 207, 994, 127   |
-| 🕸 9. Topological Sort                | Kahn / DFS order              | ⭐⭐⭐      | 210, 269             |
-| ⚙️ 10. Union-Find (DSU)               | connected components          | ⭐⭐       | 547, 684             |
-| 🎯 11. DP Fundamentals (0/1 Knapsack) | dp[i][j] / compression        | ⭐⭐⭐⭐     | 416, 518, 474        |
-| 💰 12. Advanced DP                    | LIS / interval / edit         | ⭐⭐⭐      | 300, 5, 72           |
-| 🌳 13. Tree Recursion Template        | post-order merge child info   | ⭐⭐⭐⭐     | 543, 124, 236        |
-| ⚡ 14. BST + Inorder Logic             | validate / kth / build        | ⭐⭐       | 98, 230              |
-| 🧠 15. Binary Search (Array)          | left-right pattern            | ⭐⭐⭐⭐     | 34, 74, 162          |
+| Category | Template | Priority |
+|----------|----------|----------|
+| [🧩 1. Sliding Window (Map)](#1-sliding-window-counting-map) | expand + shrink | ⭐⭐⭐⭐ |
+| [🪞 2. Two Pointers (Opposing)](#2-two-pointers-sorted-arrays--strings) | sum / diff / dedupe | ⭐⭐⭐⭐ |
+| [🧮 3. Prefix Sum + HashMap](#3-prefix-sum--hashmap-subarray-problems) | sum = k / parity / balance | ⭐⭐⭐⭐ |
+| [🔁 4. Binary Search on Answer](#5-binary-search-value-space--answer) | check(mid) monotonic | ⭐⭐⭐⭐ |
+| [🧱 5. Monotonic Stack / Queue](#4-monotonic-stack--monotonic-queue) | next greater / histogram | ⭐⭐⭐⭐ |
+| [🪜 6. Heap / Priority Queue](#7-heap--k-way-merge) | top-K / merge / median | ⭐⭐⭐⭐ |
+| [🧭 7. Greedy (Intervals)](#6-greedy---intervals) | sort by end / start | ⭐⭐⭐ |
+| [🌉 8. BFS / DFS](#8-graph-bfsdfs) | graph search / islands / maze | ⭐⭐⭐⭐ |
+| [🕸 9. Topological Sort](#10-topological-sort-kahn) | Kahn / DFS order | ⭐⭐⭐ |
+| [⚙️ 10. Union-Find (DSU)](#9-union-find-dsu) | connected components | ⭐⭐ |
+| [🎯 11. DP Fundamentals (0/1 Knapsack)](#11-dynamic-programming-core-templates) | dp[i][j] / compression | ⭐⭐⭐⭐ |
+| [💰 12. Advanced DP](#115-lis-on-log-n---patience) | LIS / interval / edit | ⭐⭐⭐ |
+| [🌳 13. Tree Recursion Template](#13-tree-recursion-template) | post-order merge child info | ⭐⭐⭐⭐ |
+| [⚡ 14. BST + Inorder Logic](#13-tree-recursion-template) | validate / kth / build | ⭐⭐ |
+| [🧠 15. Binary Search (Array)](#5-binary-search-value-space--answer) | left-right pattern | ⭐⭐⭐⭐ |
 
 ---
 
