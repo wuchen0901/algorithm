@@ -9,7 +9,7 @@
 
 | Category | Template | Priority |
 |----------|----------|----------|
-| [🧩 1. Sliding Window (Map)](#1-sliding-window-counting-map) | expand + shrink | ⭐⭐⭐⭐ |
+| [🧩 1. Sliding Window](#1-sliding-window) | expand + shrink | ⭐⭐⭐⭐ |
 | [🪞 2. Two Pointers (Opposing)](#2-two-pointers-sorted-arrays--strings) | sum / diff / dedupe | ⭐⭐⭐⭐ |
 | [🧮 3. Prefix Sum + HashMap](#3-prefix-sum--hashmap-subarray-problems) | sum = k / parity / balance | ⭐⭐⭐⭐ |
 | [🔁 4. Binary Search on Answer](#5-binary-search-value-space--answer) | check(mid) monotonic | ⭐⭐⭐⭐ |
@@ -35,12 +35,15 @@
 
 ---
 
-## 1) Sliding Window (Counting Map)
+## 1) Sliding Window
 
-**对应 LeetCode 题目（链接）：
-** [3. Longest Substring Without Repeating Characters](https://leetcode.com/problems/longest-substring-without-repeating-characters/), [76. Minimum Window Substring](https://leetcode.com/problems/minimum-window-substring/), [567. Permutation in String](https://leetcode.com/problems/permutation-in-string/), [438. Find All Anagrams in a String](https://leetcode.com/problems/find-all-anagrams-in-a-string/)
-
-**Use for:** longest/shortest substring/ subarray with frequency constraints.
+* 入门（固定窗口）：[643. Maximum Average Subarray I](https://leetcode.com/problems/maximum-average-subarray-i/)
+* 入门（可变窗口，单一约束）：[209. Minimum Size Subarray Sum](https://leetcode.com/problems/minimum-size-subarray-sum/)
+* 基础（无重复字符）：[3. Longest Substring Without Repeating Characters](https://leetcode.com/problems/longest-substring-without-repeating-characters/)
+* 进阶（频次匹配，是否存在）：[567. Permutation in String](https://leetcode.com/problems/permutation-in-string/)
+* 进阶（频次匹配，找全部位置）：[438. Find All Anagrams in a String](https://leetcode.com/problems/find-all-anagrams-in-a-string/)
+* 高阶（最小覆盖子串，多条件收缩）：[76. Minimum Window Substring](https://leetcode.com/problems/minimum-window-substring/)
+* 高阶（双窗口/至多 K 转化）：[992. Subarrays with K Different Integers](https://leetcode.com/problems/subarrays-with-k-different-integers/)
 
 ```java
 int solve(String s) {
