@@ -12,10 +12,9 @@ public class LeetCode_3_Longest_Substring_Without_Repeating_Characters {
         int l = 0;
         int longestLength = 0;
 
-        for (int r = 0; r < s.length(); ) {
+        for (int r = 0; r < s.length(); r++) {
             char c = s.charAt(r);
             window.put(c, window.getOrDefault(c, 0) + 1);
-            r++;
             // "abcabcbb"
             //  ^  ^
             // move left until it doesn't contain duplicates
@@ -26,7 +25,7 @@ public class LeetCode_3_Longest_Substring_Without_Repeating_Characters {
             }
             // "abcabcbb"
             //   ^ ^
-            longestLength = Math.max(longestLength, r - l);
+            longestLength = Math.max(longestLength, r - l + 1);
         }
 
         return longestLength;
