@@ -1,62 +1,48 @@
 package com.leetcode;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public class LeetCode_76_Minimum_Window_Substring {
 
     public String minWindow(String s, String t) {
-        HashMap<Character, Integer> target = new HashMap<>();
-        for (char c : t.toCharArray()) {
-            target.put(c, target.getOrDefault(c, 0) + 1);
+        int[] need = new int[128];
+
+        for (int i = 0; i < t.length(); i++) {
+            need[t.charAt(i)]++;
         }
 
-        HashMap<Character, Integer> window = new HashMap<>();
-        int left = 0;
+        int[] freq = new int[128];
+        int l = 0;
+        int minLength = Integer.MAX_VALUE;
+        int start = 0;
 
-        int length = Integer.MAX_VALUE;
-        String result = "";
-        for (int right = 0; right < s.length(); ) {
-            // move right until all characters in t are included
-            while (right < s.length() && !containsAllElements(target, window)) {
-                // update window
-                window.put(s.charAt(right), window.getOrDefault(s.charAt(right), 0) + 1);
+        for (int r = 0; r < s.length(); r++) {
+            freq[s.charAt(r)]++;
 
-                right++;
-            }
-            // A        B
-            // true     true
-            // false    true
-            // true     false
-            // false    false
-            System.out.println("right = " + right);
-            // move left until not all are included
-            while (containsAllElements(target, window)) {
-                if (right - left < length) {
-                    result = s.substring(left, right);
-                    length = result.length();
+            while (covers(freq, need)) {
+                if (r - l + 1 < minLength) {
+                    minLength = r - l + 1;
+                    start = l;
                 }
-                window.computeIfPresent(s.charAt(left), (c, count) -> count == 1 ? null : count - 1);
-                left++;
+
+                freq[s.charAt(l)]--;
+                l++;
             }
         }
 
-        return result;
+        return minLength == Integer.MAX_VALUE ? "" : s.substring(start, start + minLength);
     }
 
-    boolean containsAllElements(HashMap<Character, Integer> target, HashMap<Character, Integer> window) {
-        boolean included = true;
-        for (Map.Entry<Character, Integer> entry : target.entrySet()) {
-            if (window.getOrDefault(entry.getKey(), 0) < entry.getValue()) {
-                included = false;
+    private boolean covers(int[] freq, int[] need) {
+        for (int i = 0; i < 128; i++) {
+            if (freq[i] < need[i]) {
+                return false;
             }
         }
-        return included;
+        return true;
     }
 
     public static void main(String[] args) {
         LeetCode_76_Minimum_Window_Substring solution = new LeetCode_76_Minimum_Window_Substring();
-//        System.out.println(solution.minWindow("ADOBECODEBANC", "ABC"));
+        System.out.println(solution.minWindow("ADOBECODEBANC", "ABC"));
         System.out.println(solution.minWindow("cabwefgewcwaefgcf", "cae"));
     }
 }
