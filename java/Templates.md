@@ -43,6 +43,7 @@
 * 进阶（频次匹配，是否存在）：[567. Permutation in String](https://leetcode.com/problems/permutation-in-string/)
 * 进阶（频次匹配，找全部位置）：[438. Find All Anagrams in a String](https://leetcode.com/problems/find-all-anagrams-in-a-string/)
 * 高阶（最小覆盖子串，多条件收缩）：[76. Minimum Window Substring](https://leetcode.com/problems/minimum-window-substring/)
+* 高阶（至多 K 种字符）：[340. Longest Substring with At Most K Distinct Characters](https://leetcode.com/problems/longest-substring-with-at-most-k-distinct-characters/)
 * 高阶（双窗口/至多 K 转化）：[992. Subarrays with K Different Integers](https://leetcode.com/problems/subarrays-with-k-different-integers/)
 
 ```java
