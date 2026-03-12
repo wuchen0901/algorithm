@@ -10,7 +10,7 @@
 | Category | Template | Priority |
 |----------|----------|----------|
 | [🧩 1. Sliding Window](#1-sliding-window) | expand + shrink | ⭐⭐⭐⭐ |
-| [🪞 2. Two Pointers (Opposing)](#2-two-pointers-sorted-arrays--strings) | sum / diff / dedupe | ⭐⭐⭐⭐ |
+| [🪞 2. Two Pointers](#2-two-pointers) | opposing / same direction | ⭐⭐⭐⭐ |
 | [🧮 3. Prefix Sum + HashMap](#3-prefix-sum--hashmap-subarray-problems) | sum = k / parity / balance | ⭐⭐⭐⭐ |
 | [🔁 4. Binary Search on Answer](#5-binary-search-value-space--answer) | check(mid) monotonic | ⭐⭐⭐⭐ |
 | [🧱 5. Monotonic Stack / Queue](#4-monotonic-stack--monotonic-queue) | next greater / histogram | ⭐⭐⭐⭐ |
@@ -75,12 +75,18 @@ Variants:
 
 ---
 
-## 2) Two Pointers (Sorted Arrays / Strings)
+## 2) Two Pointers
 
-**对应 LeetCode 题目（链接）：
-** [11. Container With Most Water](https://leetcode.com/problems/container-with-most-water/), [15. 3Sum](https://leetcode.com/problems/3sum/), [26. Remove Duplicates from Sorted Array](https://leetcode.com/problems/remove-duplicates-from-sorted-array/), [283. Move Zeroes](https://leetcode.com/problems/move-zeroes/)
+**Use for:** opposing scans on sorted arrays / strings, or same-direction scans such as fast-slow pointers.
 
-**Use for:** sorted pair sums, dedup, partitioning, merging.
+### 2.1 Opposing
+
+* [125. Valid Palindrome](https://leetcode.com/problems/valid-palindrome/)
+* [167. Two Sum II - Input Array Is Sorted](https://leetcode.com/problems/two-sum-ii-input-array-is-sorted/)
+* [11. Container With Most Water](https://leetcode.com/problems/container-with-most-water/)
+* [15. 3Sum](https://leetcode.com/problems/3sum/)
+
+**Use for:** sorted pair sums, palindrome checks, left-right contraction.
 
 ```java
 int twoSumClosest(int[] a, int target) {
@@ -96,8 +102,34 @@ int twoSumClosest(int[] a, int target) {
 }
 ```
 
-* **Remove duplicates (in-place)**: keep write pointer, compare with previous kept.
-* **Partition by predicate**: Dutch National Flag / 3-way partition.
+* **3Sum / 4Sum**: fix one number, then run opposing pointers on the suffix.
+* **Container / palindrome**: each round remove the side that cannot improve the answer.
+
+### 2.2 Same Direction
+
+* [27. Remove Element](https://leetcode.com/problems/remove-element/)
+* [26. Remove Duplicates from Sorted Array](https://leetcode.com/problems/remove-duplicates-from-sorted-array/)
+* [876. Middle of the Linked List](https://leetcode.com/problems/middle-of-the-linked-list/)
+* [283. Move Zeroes](https://leetcode.com/problems/move-zeroes/)
+
+**Use for:** in-place compaction, stable overwrite, fast-slow traversal.
+
+```java
+int removeDuplicates(int[] nums) {
+    if (nums.length == 0) return 0;
+    int slow = 1;
+    for (int fast = 1; fast < nums.length; fast++) {
+        if (nums[fast] != nums[slow - 1]) {
+            nums[slow++] = nums[fast];
+        }
+    }
+    return slow;
+}
+```
+
+* **Move zeroes / remove element**: `fast` scans, `slow` writes the next kept position.
+* **Linked list middle / cycle**: both pointers move forward, but at different speeds.
+* **Sliding window** is also same-direction pointers, but is split into section 1 because it has its own expand-shrink invariant.
 
 ---
 
