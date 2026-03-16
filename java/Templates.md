@@ -44,6 +44,7 @@
 * 进阶（频次匹配，找全部位置）：[438. Find All Anagrams in a String](https://leetcode.com/problems/find-all-anagrams-in-a-string/)
 * 高阶（最小覆盖子串，多条件收缩）：[76. Minimum Window Substring](https://leetcode.com/problems/minimum-window-substring/)
 * 高阶（至多 K 种字符）：[340. Longest Substring with At Most K Distinct Characters](#11-problem-spotlight-340-longest-substring-with-at-most-k-distinct-characters)
+* 高阶（过渡题，先做 atMost 计数）：[Given `nums = [1,2,1,2,3]`, `k = 2`，统计 `atMost(2)` 的子数组数量](#12-atmost-k-distinct-subarray-count-for-992)
 * 高阶（双窗口/至多 K 转化）：[992. Subarrays with K Different Integers](https://leetcode.com/problems/subarrays-with-k-different-integers/)
 * [930. Binary Subarrays With Sum](https://leetcode.com/problems/binary-subarrays-with-sum/)
 * [1248. Count Number of Nice Subarrays](https://leetcode.com/problems/count-number-of-nice-subarrays/)
@@ -83,6 +84,55 @@ int lengthOfLongestSubstringKDistinct(String s, int k) {
 边界：
 * 当 `k = 0` 时，答案为 `0`
 * 当 `s` 为空串时，答案为 `0`
+
+### 1.2 AtMost K Distinct Subarray Count (for 992)
+
+题目（过渡题）：
+给定 `nums = [1,2,1,2,3]`，`k = 2`，统计“至多包含 2 种不同整数”的子数组数量 `atMost(2)`。
+
+核心思路：
+* 用滑动窗口维护“窗口内不同整数个数 <= k”
+* 当窗口合法时，以 `r` 结尾的合法子数组个数是 `r - l + 1`
+* 把每个 `r` 的贡献累加到答案
+
+```java
+int atMostKDistinctSubarrays(int[] nums, int k) {
+    Map<Integer, Integer> freq = new HashMap<>();
+    int l = 0;
+    int ans = 0;
+
+    for (int r = 0; r < nums.length; r++) {
+        freq.put(nums[r], freq.getOrDefault(nums[r], 0) + 1);
+        while (freq.size() > k) {
+            int left = nums[l++];
+            int c = freq.get(left) - 1;
+            if (c == 0) freq.remove(left);
+            else freq.put(left, c);
+        }
+        ans += r - l + 1;
+        // 为什么是 r - l + 1 ?
+        // 这是一个按“右端点分类计数”的数学思想。
+        // 对于数组 [a, b, c, d]，所有子数组可以按“以哪个元素结尾”来统计：
+        // 以 a 结尾: [a] -> 1 个
+        // 以 b 结尾: [b], [a,b] -> 2 个
+        // 以 c 结尾: [c], [b,c], [a,b,c] -> 3 个
+        // 以 d 结尾: [d], [c,d], [b,c,d], [a,b,c,d] -> 4 个
+        // 总数 = 1 + 2 + 3 + 4 = 10
+        //
+        // 在滑动窗口中，如果当前合法窗口是 [l..r]，
+        // 那么所有以 r 结尾且合法的子数组就是：
+        // [r..r], [r-1..r], ..., [l..r]
+        // 一共有 r - l + 1 个
+        // 因此每次 r 扩展后，可以把 r - l + 1 加到答案里。
+    }
+    return ans;
+}
+```
+
+对 `nums = [1,2,1,2,3], k = 2`：
+* `atMost(2) = 12`
+* `atMost(1) = 5`
+* 所以 `exactly(2) = atMost(2) - atMost(1) = 7`
 
 ```java
 int solve(String s) {
