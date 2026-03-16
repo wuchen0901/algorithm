@@ -107,10 +107,10 @@ int twoSumClosest(int[] a, int target) {
 
 ### 2.2 Same Direction
 
-* [27. Remove Element](https://leetcode.com/problems/remove-element/)
-* [26. Remove Duplicates from Sorted Array](https://leetcode.com/problems/remove-duplicates-from-sorted-array/)
-* [876. Middle of the Linked List](https://leetcode.com/problems/middle-of-the-linked-list/)
-* [283. Move Zeroes](https://leetcode.com/problems/move-zeroes/)
+[27. Remove Element](https://leetcode.com/problems/remove-element/), [283. Move Zeroes](https://leetcode.com/problems/move-zeroes/)
+[26. Remove Duplicates from Sorted Array](https://leetcode.com/problems/remove-duplicates-from-sorted-array/), [876. Middle of the Linked List](https://leetcode.com/problems/middle-of-the-linked-list/)
+[80. Remove Duplicates from Sorted Array II](https://leetcode.com/problems/remove-duplicates-from-sorted-array-ii/), [19. Remove Nth Node From End of List](https://leetcode.com/problems/remove-nth-node-from-end-of-list/)
+[287. Find the Duplicate Number](https://leetcode.com/problems/find-the-duplicate-number/), [142. Linked List Cycle II](https://leetcode.com/problems/linked-list-cycle-ii/)
 
 **Use for:** in-place compaction, stable overwrite, fast-slow traversal.
 
