@@ -45,6 +45,9 @@
 * 高阶（最小覆盖子串，多条件收缩）：[76. Minimum Window Substring](https://leetcode.com/problems/minimum-window-substring/)
 * 高阶（至多 K 种字符）：[340. Longest Substring with At Most K Distinct Characters](#11-problem-spotlight-340-longest-substring-with-at-most-k-distinct-characters)
 * 高阶（双窗口/至多 K 转化）：[992. Subarrays with K Different Integers](https://leetcode.com/problems/subarrays-with-k-different-integers/)
+* [930. Binary Subarrays With Sum](https://leetcode.com/problems/binary-subarrays-with-sum/)
+* [1248. Count Number of Nice Subarrays](https://leetcode.com/problems/count-number-of-nice-subarrays/)
+
 
 ### 1.1 Problem Spotlight: 340. Longest Substring with At Most K Distinct Characters
 
