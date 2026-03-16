@@ -43,8 +43,43 @@
 * 进阶（频次匹配，是否存在）：[567. Permutation in String](https://leetcode.com/problems/permutation-in-string/)
 * 进阶（频次匹配，找全部位置）：[438. Find All Anagrams in a String](https://leetcode.com/problems/find-all-anagrams-in-a-string/)
 * 高阶（最小覆盖子串，多条件收缩）：[76. Minimum Window Substring](https://leetcode.com/problems/minimum-window-substring/)
-* 高阶（至多 K 种字符）：[340. Longest Substring with At Most K Distinct Characters](https://leetcode.com/problems/longest-substring-with-at-most-k-distinct-characters/)
+* 高阶（至多 K 种字符）：[340. Longest Substring with At Most K Distinct Characters](#11-problem-spotlight-340-longest-substring-with-at-most-k-distinct-characters)
 * 高阶（双窗口/至多 K 转化）：[992. Subarrays with K Different Integers](https://leetcode.com/problems/subarrays-with-k-different-integers/)
+
+### 1.1 Problem Spotlight: 340. Longest Substring with At Most K Distinct Characters
+
+题目内容（总结）：
+给定字符串 `s` 和整数 `k`，返回 `s` 中“最多包含 `k` 种不同字符”的最长子串长度。
+
+```java
+int lengthOfLongestSubstringKDistinct(String s, int k) {
+    Map<Character, Integer> window = new HashMap<>();
+    int longestLength = 0;
+    int l = 0;
+    for (int r = 0; r < s.length(); r++) {
+        window.put(s.charAt(r), window.getOrDefault(s.charAt(r), 0) + 1);
+        // shink
+        while (k < window.size()) {
+            window.compute(s.charAt(l), (character, frequency) -> (frequency == null || frequency == 1) ? null : frequency - 1);
+            l++;
+        }
+
+        if (longestLength < r + 1 - l) {
+            longestLength = r + 1 - l;
+        }
+    }
+
+    return longestLength;
+}
+```
+
+示例：
+* `s = "eceba", k = 2`，答案是 `3`（子串 `"ece"`）
+* `s = "aa", k = 1`，答案是 `2`（子串 `"aa"`）
+
+边界：
+* 当 `k = 0` 时，答案为 `0`
+* 当 `s` 为空串时，答案为 `0`
 
 ```java
 int solve(String s) {
