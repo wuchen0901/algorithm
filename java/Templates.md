@@ -11,7 +11,7 @@
 |----------|----------|----------|
 | [🧩 1. Sliding Window](#1-sliding-window) | expand + shrink | ⭐⭐⭐⭐ |
 | [🪞 2. Two Pointers](#2-two-pointers) | opposing / same direction | ⭐⭐⭐⭐ |
-| [🧮 3. Prefix Sum + HashMap](#3-prefix-sum--hashmap-subarray-problems) | sum = k / parity / balance | ⭐⭐⭐⭐ |
+| [🧮 3. Prefix Sum](#3-prefix-sum) | range sum / subarray state | ⭐⭐⭐⭐ |
 | [🔁 4. Binary Search on Answer](#5-binary-search-value-space--answer) | check(mid) monotonic | ⭐⭐⭐⭐ |
 | [🧱 5. Monotonic Stack / Queue](#4-monotonic-stack--monotonic-queue) | next greater / histogram | ⭐⭐⭐⭐ |
 | [🪜 6. Heap / Priority Queue](#7-heap--k-way-merge) | top-K / merge / median | ⭐⭐⭐⭐ |
@@ -232,15 +232,47 @@ int removeDuplicates(int[] nums) {
 
 ---
 
-## 3) Prefix Sum + HashMap (Subarray Problems)
+## 3) Prefix Sum
 
-[560. Subarray Sum Equals K](https://leetcode.com/problems/subarray-sum-equals-k/) 
+核心作用：把“子数组 / 区间”问题转换成“两个前缀状态之间的关系”。
 
-[525. Contiguous Array](https://leetcode.com/problems/contiguous-array/)
+### 3.1 Prefix Sum Array
 
-[1248. Count Number of Nice Subarrays](https://leetcode.com/problems/count-number-of-nice-subarrays/)
+**适用场景：** 静态区间和、快速回答 `sum(l..r)`、二维积分图。
 
-**Use for:** counts/lengths with sum constraints.
+**题型标签：** Prefix Sum
+
+```java
+int[] buildPrefixSum(int[] nums) {
+    int[] pre = new int[nums.length + 1];
+    for (int i = 0; i < nums.length; i++) {
+        pre[i + 1] = pre[i] + nums[i];
+    }
+    return pre;
+}
+
+int rangeSum(int[] pre, int left, int right) {
+    return pre[right + 1] - pre[left];
+}
+```
+
+* **识别信号**: 多次查询区间和，数组本身不频繁修改。
+* **核心公式**: `sum(l..r) = pre[r + 1] - pre[l]`
+* **常见延伸**: 2D prefix sum, difference array
+
+### 3.2 Prefix Sum + HashMap
+
+**适用场景：** 子数组计数、最长子数组、前缀状态匹配。
+
+**题型标签：** Prefix Sum
+
+**模板标签：** Prefix Sum + HashMap
+
+例题：
+
+* [560. Subarray Sum Equals K](https://leetcode.com/problems/subarray-sum-equals-k/)
+* [525. Contiguous Array](https://leetcode.com/problems/contiguous-array/)
+* [1248. Count Number of Nice Subarrays](https://leetcode.com/problems/count-number-of-nice-subarrays/)
 
 ```java
 int subarraySumEqualsK(int[] nums, int k) {
@@ -256,8 +288,12 @@ int subarraySumEqualsK(int[] nums, int k) {
 }
 ```
 
-* **Longest subarray sum = k**: store earliest index of prefix; for each `pre`, if `pre-k` seen at `j`, length `i-j`.
-* **Sum <= k**: often needs monotonic deque over prefix or two pointers for non-negatives.
+* **识别信号**: 问“有多少个子数组”“最长多长”“是否存在某种平衡状态”
+* **核心转化**: 当前前缀 `pre` 需要去历史里找 `pre - target` 或“相同状态”
+* **560**: 查 `pre - k` 出现多少次
+* **525**: 查某个前缀状态最早出现的位置
+* **1248**: 把“奇数个数”当作前缀状态，再查 `pre - k`
+* **补充**: `sum <= k` 往往不是这个模板，常见是双指针（非负数组）或前缀和 + 单调队列
 
 ---
 
