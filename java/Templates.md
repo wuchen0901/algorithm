@@ -347,7 +347,7 @@ int[] maxWindow(int[] a, int k) {
 
 [Basic: Lower Bound in Sorted Array](#sec-5-1)
 
-[1891. Cutting Ribbons](https://leetcode.com/problems/cutting-ribbons/)
+[1891. Cutting Ribbons](#sec-5-2)
 
 [875. Koko Eating Bananas](https://leetcode.com/problems/koko-eating-bananas/)
 
@@ -406,6 +406,39 @@ int lowerBound(int[] nums, int target) {
         }
     }
     return l; // first index with nums[idx] >= target; may be nums.length
+}
+```
+
+<a id="sec-5-2"></a>
+### 5.2 1891. Cutting Ribbons
+
+**Problem:** Given an array `ribbons`, where `ribbons[i]` is the length of the `i-th` ribbon, cut ribbons into integer-length pieces so that you can get at least `k` pieces with the same length. Pieces cannot be combined. Return the maximum possible piece length.
+
+```java
+int maxLength(int[] ribbons, int k) {
+    int lo = 1, hi = 0;
+    for (int x : ribbons) hi = Math.max(hi, x);
+
+    int ans = 0;
+    while (lo <= hi) {
+        int mid = lo + (hi - lo) / 2;
+        if (canMake(ribbons, k, mid)) {
+            ans = mid;      // feasible, try longer length
+            lo = mid + 1;
+        } else {
+            hi = mid - 1;
+        }
+    }
+    return ans;
+}
+
+boolean canMake(int[] ribbons, int k, int len) {
+    long pieces = 0;
+    for (int x : ribbons) {
+        pieces += x / len;
+        if (pieces >= k) return true;
+    }
+    return false;
 }
 ```
 
