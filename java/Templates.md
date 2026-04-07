@@ -345,6 +345,8 @@ int[] maxWindow(int[] a, int k) {
 
 ## 5) Binary Search (Value Space / Answer)
 
+[Basic: Lower Bound in Sorted Array](#sec-5-1)
+
 [1891. Cutting Ribbons](https://leetcode.com/problems/cutting-ribbons/)
 
 [875. Koko Eating Bananas](https://leetcode.com/problems/koko-eating-bananas/)
@@ -385,6 +387,27 @@ int bsMinTrue(int lo, int hi) { // [lo, hi] inclusive
 ```
 
 `check(mid)` must be **monotonic**.
+
+
+<a id="sec-5-1"></a>
+### 5.1 Basic: Lower Bound in Sorted Array
+
+```java
+int lowerBound(int[] nums, int target) {
+    int l = 0, r = nums.length;
+    while (l < r) {
+        int mid = l + (r - l) / 2;
+        if (target < nums[mid]) {
+            r = mid;
+        } else if (nums[mid] < target) {
+            l = mid + 1;
+        } else {
+            r = mid;
+        }
+    }
+    return l; // first index with nums[idx] >= target; may be nums.length
+}
+```
 
 ---
 
