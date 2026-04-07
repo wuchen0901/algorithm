@@ -345,6 +345,8 @@ int[] maxWindow(int[] a, int k) {
 
 ## 5) Binary Search (Value Space / Answer)
 
+[1891. Cutting Ribbons](https://leetcode.com/problems/cutting-ribbons/)
+
 [875. Koko Eating Bananas](https://leetcode.com/problems/koko-eating-bananas/)
 
 [1011. Capacity To Ship Packages Within D Days](https://leetcode.com/problems/capacity-to-ship-packages-within-d-days/)
@@ -352,6 +354,24 @@ int[] maxWindow(int[] a, int k) {
 [410. Split Array Largest Sum](https://leetcode.com/problems/split-array-largest-sum/)
 
 **Use for:** minimize x such that `check(x)` true; typical in scheduling, capacity, radius.
+
+```java
+// 100m stick, cut into equal integer lengths, at least k pieces.
+// Find the maximum feasible piece length.
+int maxLen(int k) {
+    int l = 1, r = 100, ans = -1;
+    while (l <= r) {
+        int mid = l + (r - l) / 2;
+        if (100 / mid >= k) { // feasible, try larger length
+            ans = mid;
+            l = mid + 1;
+        } else {
+            r = mid - 1;
+        }
+    }
+    return ans;
+}
+```
 
 ```java
 int bsMinTrue(int lo, int hi) { // [lo, hi] inclusive
