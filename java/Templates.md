@@ -397,15 +397,28 @@ int lowerBound(int[] nums, int target) {
     int l = 0, r = nums.length;
     while (l < r) {
         int mid = l + (r - l) / 2;
-        if (target < nums[mid]) {
+        if (nums[mid] >= target) {
             r = mid;
-        } else if (nums[mid] < target) {
-            l = mid + 1;
         } else {
-            r = mid;
+            l = mid + 1;
         }
     }
-    return l; // first index with nums[idx] >= target; may be nums.length
+    return l;
+}
+```
+
+```java
+int upperBound(int[] nums, int target) {
+    int l = 0, r = nums.length;
+    while (l < r) {
+        int mid = l + (r - l) / 2;
+        if (nums[mid] > target) {
+            r = mid;
+        } else {
+            l = mid + 1;
+        }
+    }
+    return l;
 }
 ```
 
