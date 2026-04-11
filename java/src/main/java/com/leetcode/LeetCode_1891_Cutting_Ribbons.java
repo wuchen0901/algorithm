@@ -22,11 +22,11 @@ public class LeetCode_1891_Cutting_Ribbons {
     }
 
     private int canCut(int[] ribbons, int length) {
-        int pieces = 0;
+        int pieceCount = 0;
         for (int ribbon : ribbons) {
-            pieces += ribbon / length;
+            pieceCount += ribbon / length;
         }
-        return pieces;
+        return pieceCount;
     }
 
     public static void main(String[] args) {
