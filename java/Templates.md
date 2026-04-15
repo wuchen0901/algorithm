@@ -2,6 +2,8 @@
 
 > Focus on **generalizable, interview-friendly** patterns with clear invariants. All snippets are compact and meant to
 > be adapted quickly.
+>
+> Pair this with [TrickLibrary.md](/Users/apple/PycharmProjects/algorithm/java/TrickLibrary.md) when a problem does not fit a clean template but still has a stable transformation or insight.
 
 ---
 
