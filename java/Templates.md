@@ -349,6 +349,8 @@ int[] maxWindow(int[] a, int k) {
 
 [Basic: Lower Bound in Sorted Array](#sec-5-1)
 
+[162. Find Peak Element](#sec-5-1a)
+
 [1891. Cutting Ribbons](#sec-5-2)
 
 [875. Koko Eating Bananas](https://leetcode.com/problems/koko-eating-bananas/)
@@ -415,6 +417,33 @@ int upperBound(int[] nums, int target) {
     while (l < r) {
         int mid = l + (r - l) / 2;
         if (nums[mid] > target) {
+            r = mid;
+        } else {
+            l = mid + 1;
+        }
+    }
+    return l;
+}
+```
+
+<a id="sec-5-1a"></a>
+### 5.1A 162. Find Peak Element
+
+**Pattern:** binary search on array shape, not exact target value.
+
+**Key idea:** compare `nums[mid]` with `nums[mid + 1]`.
+
+- if `nums[mid] > nums[mid + 1]`, a peak must exist in `[l, mid]`
+- else, a peak must exist in `[mid + 1, r]`
+
+This works because the slope direction tells you which side still contains a peak.
+
+```java
+int findPeakElement(int[] nums) {
+    int l = 0, r = nums.length - 1;
+    while (l < r) {
+        int mid = l + (r - l) / 2;
+        if (nums[mid] > nums[mid + 1]) {
             r = mid;
         } else {
             l = mid + 1;
