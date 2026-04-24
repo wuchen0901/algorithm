@@ -5,7 +5,7 @@
 
 ---
 
-## 1. O(1)
+## 1. O(1) Big O of 1
 
 ```java
 int x = nums[0];
@@ -18,7 +18,7 @@ return y;
 
 ---
 
-## 2. O(n)
+## 2. O(n) Big O of n
 
 ```java
 for (int i = 0; i < n; i++) {
@@ -41,7 +41,7 @@ while (i < n) {
 
 ---
 
-## 3. O(n^2)
+## 3. O(n^2) Big O of n squared
 
 ```java
 for (int i = 0; i < n; i++) {
@@ -70,7 +70,7 @@ for (int i = 0; i < n; i++) {
 
 ---
 
-## 4. O(n^3)
+## 4. O(n^3) Big O of n cubed
 
 ```java
 for (int i = 0; i < n; i++) {
@@ -87,7 +87,7 @@ for (int i = 0; i < n; i++) {
 
 ---
 
-## 5. O(log n)
+## 5. O(log n) Big O of log n
 
 ```java
 int left = 0;
@@ -119,7 +119,7 @@ for (int i = 1; i < n; i *= 2) {
 
 ---
 
-## 6. O(n log n)
+## 6. O(n log n) Big O of n log n
 
 ```java
 for (int i = 0; i < n; i++) {
@@ -148,7 +148,7 @@ Classic examples:
 
 ---
 
-## 7. O(sqrt(n))
+## 7. O(sqrt(n)) Big O of square root of n
 
 ```java
 for (int i = 1; i * i <= n; i++) {
@@ -161,7 +161,7 @@ for (int i = 1; i * i <= n; i++) {
 
 ---
 
-## 8. O(2^n)
+## 8. O(2^n) Big O of 2 to the n
 
 ```java
 void dfs(int index) {
@@ -184,7 +184,7 @@ Example meaning:
 
 ---
 
-## 9. O(n!)
+## 9. O(n!) Big O of n factorial
 
 ```java
 void permute(List<Integer> path, boolean[] used) {
@@ -209,7 +209,7 @@ void permute(List<Integer> path, boolean[] used) {
 
 ---
 
-## 10. O(m + n)
+## 10. O(m + n) Big O of m plus n
 
 ```java
 int i = 0;
@@ -235,7 +235,7 @@ Common in:
 
 ---
 
-## 11. O(V + E) in Graphs
+## 11. O(V + E) Big O of V plus E in Graphs
 
 ```java
 Queue<Integer> queue = new LinkedList<>();
@@ -261,7 +261,7 @@ while (!queue.isEmpty()) {
 
 ---
 
-## 12. O(n) Amortized in Sliding Window / Two Pointers
+## 12. O(n) Big O of n Amortized in Sliding Window / Two Pointers
 
 ```java
 int left = 0;
@@ -285,7 +285,7 @@ This is a very common interview trap:
 
 ---
 
-## 13. O(1) Average for HashMap / HashSet Operations
+## 13. O(1) Big O of 1 Average for HashMap / HashSet Operations
 
 ```java
 Map<Integer, Integer> map = new HashMap<>();
@@ -303,7 +303,7 @@ Important note:
 
 ---
 
-## 14. O(log n) per Heap Operation
+## 14. O(log n) Big O of log n per Heap Operation
 
 ```java
 PriorityQueue<Integer> heap = new PriorityQueue<>();
@@ -327,7 +327,7 @@ Common patterns:
 
 ---
 
-## 15. O(n) Recursion
+## 15. O(n) Big O of n Recursion
 
 ```java
 int sum(int n) {
@@ -344,7 +344,7 @@ int sum(int n) {
 
 ---
 
-## 16. O(log n) Recursion
+## 16. O(log n) Big O of log n Recursion
 
 ```java
 int f(int n) {
@@ -360,7 +360,7 @@ int f(int n) {
 
 ---
 
-## 17. O(n log n) Divide and Conquer
+## 17. O(n log n) Big O of n log n Divide and Conquer
 
 ```java
 void mergeSort(int[] nums, int left, int right) {
@@ -419,4 +419,3 @@ When you see Java code, ask these questions:
 | permutation recursion | `O(n!)` |
 | heap push/pop `n` times | `O(n log n)` |
 | merge sort | `O(n log n)` |
-
