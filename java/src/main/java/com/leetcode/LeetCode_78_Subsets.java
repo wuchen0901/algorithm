@@ -18,4 +18,23 @@ public class LeetCode_78_Subsets {
             path.remove(path.size() - 1);
         }
     }
+
+    public List<List<Integer>> subsetsIncludeExclude(int[] nums) {
+        List<List<Integer>> result = new ArrayList<>();
+        backtrackIncludeExclude(nums, new ArrayList<>(), 0, result);
+        return result;
+    }
+
+    private void backtrackIncludeExclude(int[] nums, List<Integer> path, int index, List<List<Integer>> result) {
+        if (index == nums.length) {
+            result.add(new ArrayList<>(path));
+            return;
+        }
+
+        path.add(nums[index]);
+        backtrackIncludeExclude(nums, path, index + 1, result);
+        path.removeLast();
+
+        backtrackIncludeExclude(nums, path, index + 1, result);
+    }
 }
