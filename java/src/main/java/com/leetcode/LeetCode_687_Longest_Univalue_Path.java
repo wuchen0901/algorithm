@@ -18,22 +18,24 @@ public class LeetCode_687_Longest_Univalue_Path {
             return 0;
         }
 
-        int leftLength = dfs(root.left);
-        int rightLength = dfs(root.right);
+        int leftContribution = dfs(root.left);
+        int rightContribution = dfs(root.right);
 
-        if (root.left != null && root.left.val == root.val && root.right != null && root.right.val == root.val) {
-            maxLength = Math.max(maxLength, leftLength + 1 + rightLength + 1);
-            return Math.max(leftLength, rightLength) + 1;
-        } else if (root.left != null && root.left.val == root.val) {
-            maxLength = Math.max(maxLength, leftLength + 1);
-            return leftLength + 1;
-        } else if (root.right != null && root.right.val == root.val) {
-            maxLength = Math.max(maxLength, rightLength + 1);
-            return rightLength + 1;
+        if (root.left != null && root.left.val == root.val) {
+            leftContribution += 1;
         } else {
-            return 0;
+            leftContribution = 0;
         }
 
+        if (root.right != null && root.right.val == root.val) {
+            rightContribution += 1;
+        } else {
+            rightContribution = 0;
+        }
+
+        maxLength = Math.max(maxLength, leftContribution + rightContribution);
+
+        return Math.max(leftContribution, rightContribution);
         // Now I'll dry-run my solution.
     }
 }
