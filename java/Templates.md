@@ -24,7 +24,7 @@
 | [🎯 11. DP Fundamentals (0/1 Knapsack)](#11-dynamic-programming-core-templates) | dp[i][j] / compression | ⭐⭐⭐⭐ |
 | [💰 12. Advanced DP](#115-lis-on-log-n---patience) | LIS / interval / edit | ⭐⭐⭐ |
 | [🌳 13. Tree Recursion Template](#13-tree-recursion-template) | post-order merge child info | ⭐⭐⭐⭐ |
-| [⚡ 14. BST + Inorder Logic](#13-tree-recursion-template) | validate / kth / build | ⭐⭐ |
+| [⚡ 14. Bitmask DP](#14-bitmask-dp-tsp-like-small-n) | TSP-like / small N | ⭐⭐ |
 | [🧠 15. Binary Search (Array)](#5-binary-search-value-space--answer) | left-right pattern | ⭐⭐⭐⭐ |
 
 ---
