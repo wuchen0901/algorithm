@@ -1163,6 +1163,33 @@ int tsp(int[][] w) {
 
 [253. Meeting Rooms II](https://leetcode.com/problems/meeting-rooms-ii/)
 
+**题目描述：** 给定一个会议时间数组 `intervals`，其中 `intervals[i] = [start_i, end_i]`
+表示第 `i` 个会议从 `start_i` 开始，到 `end_i` 结束。一个会议室在同一时间只能安排一个会议；
+如果一个会议的结束时间等于另一个会议的开始时间，这两个会议可以使用同一个会议室。
+
+返回安排完所有会议所需的最少会议室数量。
+
+**示例 1：**
+
+```text
+Input: intervals = [[0,30],[5,10],[15,20]]
+Output: 2
+```
+
+**示例 2：**
+
+```text
+Input: intervals = [[7,10],[2,4]]
+Output: 1
+```
+
+**约束：**
+
+```text
+1 <= intervals.length <= 10^4
+0 <= start_i < end_i <= 10^6
+```
+
 [218. The Skyline Problem](https://leetcode.com/problems/the-skyline-problem/)
 
 [732. My Calendar III](https://leetcode.com/problems/my-calendar-iii/)
