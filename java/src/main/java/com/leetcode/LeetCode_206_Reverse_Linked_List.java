@@ -4,28 +4,16 @@ import com.leetcode.common.ListNode;
 
 public class LeetCode_206_Reverse_Linked_List {
     public ListNode reverseList(ListNode head) {
-        if (head == null) {
-            return null;
+        ListNode prev = null;
+        ListNode curr = head;
+
+        while (curr != null) {
+            ListNode next = curr.next;
+            curr.next = prev;
+            prev = curr;
+            curr = next;
         }
 
-        if (head.next == null) {
-            return head;
-        }
-
-        ListNode l = head;
-        ListNode r = head.next;
-        l.next = null;
-        // 3 -> 6 -> 8
-        // l    r    next
-        while (r.next != null) {
-            ListNode next = r.next;
-            r.next = l;
-            l = r;
-            r = next;
-        }
-
-        r.next = l;
-
-        return r;
+        return prev;
     }
 }
