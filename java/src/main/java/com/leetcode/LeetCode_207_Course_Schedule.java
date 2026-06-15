@@ -45,6 +45,11 @@ public class LeetCode_207_Course_Schedule {
     }
 
     // DFS 3-state solution using VISITED, VISITING, UNVISITED states
+
+    /**
+     * Time:  O(V + E)
+     * Space: O(V + E)
+     */
     public static class DFS3StateSolution {
         private static final int UNVISITED = 0;
         private static final int VISITING = 1;
