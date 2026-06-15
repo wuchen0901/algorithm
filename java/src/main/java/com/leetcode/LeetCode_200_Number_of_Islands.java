@@ -1,5 +1,9 @@
 package com.leetcode;
 
+/**
+ * Time Complexity: O(m × n)
+ * Space Complexity: O(m × n)
+ */
 public class LeetCode_200_Number_of_Islands {
     public int numIslands(char[][] grid) {
         int numberOfIslands = 0;
