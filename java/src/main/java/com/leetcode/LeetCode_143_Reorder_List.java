@@ -3,6 +3,10 @@ package com.leetcode;
 import com.leetcode.common.ListNode;
 import org.w3c.dom.NodeList;
 
+/**
+ * Time Complexity: O(n)
+ * Space Complexity: O(1)
+ */
 public class LeetCode_143_Reorder_List {
     public void reorderList(ListNode head) {
         ListNode fast = head;
