@@ -1,6 +1,7 @@
 package com.leetcode;
 
 import com.leetcode.common.ListNode;
+import org.w3c.dom.NodeList;
 
 public class LeetCode_143_Reorder_List {
     public void reorderList(ListNode head) {
@@ -40,18 +41,13 @@ public class LeetCode_143_Reorder_List {
         list2 = prev;
 
         // Finally, I merge the two lists.
-        ListNode dummy = new ListNode();
-        ListNode pointer = dummy;
-
         while (list1 != null && list2 != null) {
-            pointer.next = list1;
-            pointer = pointer.next;
-            list1 = list1.next;
-            pointer.next = list2;
-            pointer = pointer.next;
-            list2 = list2.next;
+            ListNode next1 = list1.next;
+            ListNode next2 = list2.next;
+            list1.next = list2;
+            list1 = next1;
+            list2.next = list1;
+            list2 = next2;
         }
-
-        pointer.next = (list1 == null) ? list2 : list1;
     }
 }
