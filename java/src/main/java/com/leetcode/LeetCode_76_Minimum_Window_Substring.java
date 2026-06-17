@@ -2,47 +2,55 @@ package com.leetcode;
 
 public class LeetCode_76_Minimum_Window_Substring {
 
-    public String minWindow(String s, String t) {
-        int[] need = new int[128];
-
-        for (int i = 0; i < t.length(); i++) {
-            need[t.charAt(i)]++;
+    public String minWindow(String s, String target) {
+        // What size array should I use for freq here?
+        // Why should I use an array of size 128?
+        // Why should the array size be 128?
+        int[] windowFreq = new int[128];
+        int[] targetFreq = new int[128];
+        int unmatchedCount = 0;
+        for (int i = 0; i < target.length(); i++) {
+            char c = target.charAt(i);
+            if (targetFreq[c] == 0) {
+                unmatchedCount++;
+            }
+            targetFreq[c]++;
         }
 
-        int[] freq = new int[128];
-        int l = 0;
-        int minLength = Integer.MAX_VALUE;
-        int start = 0;
+        String result = "";
+        int resultLength = 100000;
 
-        for (int r = 0; r < s.length(); r++) {
-            freq[s.charAt(r)]++;
+        int left = 0;
 
-            while (covers(freq, need)) {
-                if (r - l + 1 < minLength) {
-                    minLength = r - l + 1;
-                    start = l;
+        for (int right = 0; right < s.length(); right++) {
+            char rightChar = s.charAt(right);
+
+            if (0 < targetFreq[rightChar]) {
+                windowFreq[rightChar]++;
+                if (windowFreq[rightChar] == targetFreq[rightChar]) {
+                    unmatchedCount--;
+                }
+            }
+
+            while (unmatchedCount == 0) {
+                if (right - left + 1 < resultLength) {
+                    result = s.substring(left, right + 1);
+                    resultLength = right - left + 1;
                 }
 
-                freq[s.charAt(l)]--;
-                l++;
+                char leftChar = s.charAt(left);
+
+                if (0 < targetFreq[leftChar]) {
+                    windowFreq[leftChar]--;
+                    if (windowFreq[leftChar] == targetFreq[leftChar] - 1) {
+                        unmatchedCount++;
+                    }
+                }
+
+                left++;
             }
         }
 
-        return minLength == Integer.MAX_VALUE ? "" : s.substring(start, start + minLength);
-    }
-
-    private boolean covers(int[] freq, int[] need) {
-        for (int i = 0; i < 128; i++) {
-            if (freq[i] < need[i]) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    public static void main(String[] args) {
-        LeetCode_76_Minimum_Window_Substring solution = new LeetCode_76_Minimum_Window_Substring();
-        System.out.println(solution.minWindow("ADOBECODEBANC", "ABC"));
-        System.out.println(solution.minWindow("cabwefgewcwaefgcf", "cae"));
+        return result;
     }
 }
