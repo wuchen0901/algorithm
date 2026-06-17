@@ -21,7 +21,7 @@ public class LeetCode_77_Combinations {
         for (int i = start; i <= n; i++) {
             path.add(i);
             backtrack(n, k, path, i + 1, result);
-            path.removeLast();
+            path.remove(path.size() - 1);
         }
     }
 }

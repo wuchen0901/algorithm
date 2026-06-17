@@ -33,7 +33,7 @@ public class LeetCode_78_Subsets {
 
         path.add(nums[index]);
         backtrackIncludeExclude(nums, path, index + 1, result);
-        path.removeLast();
+        path.remove(path.size() - 1);
 
         backtrackIncludeExclude(nums, path, index + 1, result);
     }
