@@ -8,20 +8,30 @@ public class LeetCode_992_Subarrays_with_K_Different_Integers {
         return atMost(nums, k) - atMost(nums, k - 1);
     }
 
-    private int atMost(int[] nums, int k) {
-        Map<Integer, Integer> window = new HashMap<>();
-        int ans = 0;
-        int l = 0;
-        for (int r = 0; r < nums.length; r++) {
-            window.put(nums[r], window.getOrDefault(nums[r], 0) + 1);
-            while (k < window.size()) {
-                window.compute(nums[l], (ch, freq) -> freq == 1 ? null : freq - 1);
-                l++;
+    int atMost(int[] nums, int k) {
+        int[] freq = new int[20000 + 1];
+        int distinctCount = 0;
+        int left = 0;
+        int count = 0;
+        for (int right = 0; right < nums.length; right++) {
+            int rightNum = nums[right];
+            if (freq[rightNum] == 0) {
+                distinctCount++;
             }
 
-            ans += r - (l - 1);
-        }
+            freq[rightNum]++;
 
-        return ans;
+            while (k < distinctCount) {
+                int leftNum = nums[left];
+                freq[leftNum]--;
+                if (freq[leftNum] == 0) {
+                    distinctCount--;
+                }
+                left++;
+            }
+
+            count += right - left + 1;
+        }
+        return count;
     }
 }
