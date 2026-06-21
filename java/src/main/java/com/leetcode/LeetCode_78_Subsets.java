@@ -37,4 +37,17 @@ public class LeetCode_78_Subsets {
 
         backtrackIncludeExclude(nums, path, index + 1, result);
     }
+
+    public static void main(String[] args) {
+        LeetCode_78_Subsets solution = new LeetCode_78_Subsets();
+        int[] nums = {1, 2, 3, 4};
+
+        List<List<Integer>> result = solution.subsets(nums);
+
+        System.out.println("Input: [1, 2, 3, 4]");
+        System.out.println("Subsets:");
+        for (List<Integer> subset : result) {
+            System.out.println(subset);
+        }
+    }
 }
