@@ -4,6 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LeetCode_46_Permutations {
+    /**
+     * Time complexity: O(n · n!)
+     * Auxiliary space complexity: O(n)
+     * Total space complexity: O(n · n!)
+     */
     public List<List<Integer>> permute(int[] nums) {
         List<List<Integer>> result = new ArrayList<>();
 
