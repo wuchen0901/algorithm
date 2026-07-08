@@ -1,12 +1,9 @@
 package com.leetcode;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class LeetCode_347_Top_K_Frequent_Elements {
-    public int[] topKFrequent(int[] nums, int k) {
+    public int[] topKFrequentBucketSort(int[] nums, int k) {
         Map<Integer, Integer> freq = new HashMap<>();
         for (int num : nums) {
             freq.put(num, freq.getOrDefault(num, 0) + 1);
@@ -41,6 +38,36 @@ public class LeetCode_347_Top_K_Frequent_Elements {
                 }
             }
 
+        }
+
+        return result;
+    }
+
+    /**
+     * Time Complexity: O(n + m log m + k log m), where m is the number of unique elements. In the worst case (m = n), this becomes O(n log n).
+     * Space Complexity: O(m), or O(n) in the worst case.
+     */
+    public int[] topKFrequentMinHeap(int[] nums, int k) {
+        Map<Integer, Integer> freq = new HashMap<>();
+
+        for (int num : nums) {
+            freq.put(num, freq.getOrDefault(num, 0) + 1);
+        }
+
+        Queue<Map.Entry<Integer, Integer>> heap = new PriorityQueue<>((a, b) -> a.getValue() - b.getValue());
+
+        for (Map.Entry<Integer, Integer> entry : freq.entrySet()) {
+            heap.offer(entry);
+
+            if (k < heap.size()) {
+                heap.poll();
+            }
+        }
+
+        int[] result = new int[k];
+
+        for (int i = 0; i < k; i++) {
+            result[i] = heap.poll().getKey();
         }
 
         return result;
