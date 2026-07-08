@@ -5,6 +5,10 @@ import java.util.Arrays;
 import java.util.Deque;
 
 public class LeetCode_739_Daily_Temperatures {
+    /**
+     * Time complexity: O(n)
+     * Space complexity: O(n)
+     */
     public int[] dailyTemperatures(int[] temperatures) {
         Deque<Integer> stack = new ArrayDeque<>();
         // ArrayDeque 常用方法与操作位置说明：
