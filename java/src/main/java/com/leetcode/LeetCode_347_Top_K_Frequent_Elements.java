@@ -3,6 +3,10 @@ package com.leetcode;
 import java.util.*;
 
 public class LeetCode_347_Top_K_Frequent_Elements {
+    /**
+     * Time Complexity: O(n + m), which is O(n) in the worst case.
+     * Space Complexity: O(n + m + k), which simplifies to O(n) in the worst case.
+     */
     public int[] topKFrequentBucketSort(int[] nums, int k) {
         Map<Integer, Integer> freq = new HashMap<>();
         for (int num : nums) {
