@@ -9,35 +9,30 @@ import java.util.Map;
 
 public class LeetCode_133_Clone_Graph {
 
-    Map<Integer, Node> nodes;
+    Map<Integer, Node> nodes = new HashMap<>();
 
+    /**
+     * Time Complexity: O(V + E)
+     * Space Complexity: O(V)
+     */
     public Node cloneGraph(Node node) {
         if (node == null) {
-            return node;
+            return null;
         }
-        nodes = new HashMap<>();
-        Map<Integer, Boolean> visited = new HashMap<>();
 
-        return cloneNode(node, visited);
-    }
+        Node root;
 
-    Node cloneNode(Node node, Map<Integer, Boolean> visited) {
-        if (visited.getOrDefault(node.val, false)) {
+        if (nodes.containsKey(node.val)) {
             return nodes.get(node.val);
         }
 
-        Node copy = new Node(node.val);
-        nodes.put(copy.val, copy);
-        visited.put(node.val, true);
-
-        List<Node> neighbors = new ArrayList<>();
+        root = new Node(node.val);
+        nodes.put(node.val, root);
 
         for (Node neighbor : node.neighbors) {
-            neighbors.add(cloneNode(neighbor, visited));
+            root.neighbors.add(cloneGraph(neighbor));
         }
 
-        copy.neighbors = neighbors;
-
-        return copy;
+        return root;
     }
 }
