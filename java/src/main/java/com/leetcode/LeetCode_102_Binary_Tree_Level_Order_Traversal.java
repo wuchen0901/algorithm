@@ -8,6 +8,8 @@ import java.util.Deque;
 import java.util.List;
 
 public class LeetCode_102_Binary_Tree_Level_Order_Traversal {
+    // Time complexity: O(n)
+    // Auxiliary space complexity: O(w)
     public List<List<Integer>> levelOrder(TreeNode root) {
         if (root == null) return List.of();
 
