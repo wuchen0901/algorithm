@@ -3,6 +3,8 @@ package com.leetcode;
 import com.leetcode.common.ListNode;
 
 public class LeetCode_21_Merge_Two_Sorted_Lists {
+    // Time: O(m+n) — each node from both lists is processed at most once.
+    // Auxiliary space: O(1) — the existing nodes are relinked using only dummy and pointer.
     public ListNode mergeTwoLists(ListNode list1, ListNode list2) {
         if (list1 == null)
             return list2;
