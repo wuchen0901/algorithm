@@ -8,6 +8,8 @@ import org.w3c.dom.NodeList;
  * Space Complexity: O(1)
  */
 public class LeetCode_143_Reorder_List {
+    // Time complexity: O(n) — finding the middle, reversing the second half, and merging each take O(n). Sequential operations add: O(n) + O(n) + O(n) = O(n).
+    // Auxiliary space: O(1) — you only use a fixed number of pointers and modify the list in place.
     public void reorderList(ListNode head) {
         ListNode fast = head;
         ListNode slow = head;
